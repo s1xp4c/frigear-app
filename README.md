@@ -1,17 +1,20 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Prerequisites
+
+- Docker
+- pnpm
+
+
 ## Getting Started
 
-First, run the development server:
-
-```bash
-pnpm dev
-```
+1. `cp .env.example .env` (This file should not be commited to VCS)
+2. Fill out the required environment variables
+3. Start supabase server `pnpm dlx supabase start`
+4. Start local development server`pnpm run dev`
 
 
 ## Testing
-
-Running all tests:
 ```bash
 pnpm run test
 ```
