@@ -2,6 +2,8 @@
 create table public.user_profile
 (
     id         uuid              not null primary key references auth.users (id) on delete cascade,
+    nickname   character varying not null default 'my-nick',
+    email      character varying not null,
     role       character varying not null default 'user',
     settings   jsonb             not null default '{}'::jsonb,
     fields     jsonb             not null default '{}'::jsonb,
@@ -66,8 +68,8 @@ begin
         with_role := 'admin';
     end if;
 
-    insert into public.user_profile (id, role)
-    values (new.id, with_role);
+    insert into public.user_profile (id, nickname, email, role)
+    values (new.id, new.email, new.email, with_role);
     return new;
 end;
 $$;
@@ -86,29 +88,13 @@ create function public.handle_auth_user_updated()
     security definer set search_path = public
 as
 $$
-declare
-    changed        boolean = false;
-    profile_fields jsonb   = '{}'::jsonb;
 begin
-    -- get the current profile for updates
-    select fields
-    from user_profile
-    where id = new.id
-    into profile_fields;
-
     -- update email on user_profile if it changed
     -- TODO: Check if this already will have email_verified = true
     --  or if that is triggered later and we need to check it.
     if new.email != old.email then
-        select jsonb_set(profile_fields, 'email', new.email)
-        into profile_fields;
-        changed = true;
-    end if;
-
-    -- actually update the fields on the user_profile
-    if changed then
         update user_profile
-        set fields = profile_fields
+        set email = new.email
         where id = new.id;
     end if;
 end;
