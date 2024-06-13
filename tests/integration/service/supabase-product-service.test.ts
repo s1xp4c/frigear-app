@@ -13,11 +13,11 @@ describe('services/product/product-service', () => {
 
     beforeAll(async () => {
         client = createSupabaseServiceRoleClient();
+        repository = new SupabaseProductRepository(client);
+        productService = new ProductService(repository);
     });
 
     beforeEach(async () => {
-        repository = new SupabaseProductRepository(client);
-        productService = new ProductService(repository);
         await productService.deleteAll();
     });
 
