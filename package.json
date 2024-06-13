@@ -7,11 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "test": "pnpm run test:code --run && pnpm run db:test",
+    "test:code": "vitest --coverage",
+    "db:test": "supabase db test",
+    "db:reset": "supabase db reset",
+    "stripe:listen": "docker run --rm -it stripe/stripe-cli listen --forward-to http://localhost:3000/api/webhooks/stripe",
+    "stripe:trigger": "docker run --rm -it --network host stripe/stripe-cli trigger"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.0.2",
+    "@secjs/ioc": "^1.0.8",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.4",
     "class-variance-authority": "^0.7.0",
@@ -26,12 +32,16 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
     "jsdom": "^23.2.0",
+    "msw": "^2.3.1",
     "postcss": "^8.4.38",
+    "supabase": "^1.176.10",
     "tailwindcss": "^3.4.4",
+    "tsx": "^4.15.4",
     "typescript": "^5.4.5",
-    "vitest": "1.0.4"
+    "vitest": "1.6.0"
   }
 }
