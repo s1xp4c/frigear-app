@@ -17,19 +17,14 @@ export interface IStripeWebhookHandler {
 //TODO: Set up basic stripe.
 export default class StripeWebhookHandler implements IStripeWebhookHandler {
     async handleEvent({type, object, data}: StripeWebhookEvent): Promise<NextResponse> {
-        let result: Record<string, any> = {};
         switch (type) {
             case 'payment_intent.created':
-                result = this.paymentIntentCreated(data);
-                break;
+                return this.paymentIntentCreated(data);
             case 'payment_intent.succeeded':
-                result = this.paymentIntentSucceeded(data);
-                break;
+                return this.paymentIntentSucceeded(data);
             default:
                 throw new Error('Unhandled event.');
         }
-
-        return NextResponse.json({result, object})
     }
 
     async paymentIntentCreated(data: StripeWebhookEventData): Promise<any> {
