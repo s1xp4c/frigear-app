@@ -5,6 +5,7 @@ import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
 import type {ProductRepository} from "@/lib/repositories/product/product-repository";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
+import UserService from "@/lib/services/admin/user-service";
 
 
 export interface ServerContainer {
@@ -13,16 +14,20 @@ export interface ServerContainer {
     stripeWebhookHandler: IStripeWebhookHandler;
     productService: ProductService;
     productRepository: ProductRepository;
+    userService: UserService;
 }
 
 export const serverContainer = new DependencyContainer<ServerContainer>();
 
-serverContainer.service('supabaseServiceClient', () => createSupabaseServiceRoleClient());
-serverContainer.service('supabaseClient', () => createSupabaseServerClient());
-serverContainer.service('stripeWebhookHandler', () => new StripeWebhookHandler());
-serverContainer.service('productRepository', (container) => {
+serverContainer.instance('supabaseServiceClient', () => createSupabaseServiceRoleClient());
+serverContainer.instance('supabaseClient', () => createSupabaseServerClient());
+serverContainer.instance('stripeWebhookHandler', () => new StripeWebhookHandler());
+serverContainer.instance('productRepository', (container) => {
     return new SupabaseProductRepository(container.get('supabaseClient'));
 });
-serverContainer.service('productService', (container) => {
+serverContainer.instance('productService', (container) => {
     return new ProductService(container.get('productRepository'));
+});
+serverContainer.instance('userService', (container) => {
+    return new UserService(container.get('supabaseServiceClient'));
 });

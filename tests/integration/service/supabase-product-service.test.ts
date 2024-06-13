@@ -6,7 +6,7 @@ import ProductService from "@/lib/services/product/product-service";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 import {copycat} from "@snaplet/copycat";
 
-describe('service/supabase-product-service', () => {
+describe('services/product/product-service', () => {
     let client: SupabaseClient;
     let repository: ProductRepository;
     let productService: ProductService;

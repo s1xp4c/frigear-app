@@ -9,9 +9,9 @@ describe('lib/dependency-container', () => {
             c: number;
         }>();
 
-        container.service('a', () => 1);
-        container.service('b', () => 2);
-        container.service('c', (container) => {
+        container.instance('a', () => 1);
+        container.instance('b', () => 2);
+        container.instance('c', (container) => {
             return container.get('a') + container.get('b');
         });
 
