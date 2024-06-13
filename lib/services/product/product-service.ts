@@ -10,8 +10,11 @@ export interface ProductService {
 
     getById(id: string): Promise<Product>;
 
+    getBySlug(slug: string): Promise<Product>;
+
     create(attributes: Partial<Omit<Product, 'id'>>): Promise<Product>;
 
     updateById(id: string, attributes: Partial<Product>): Promise<Product>;
 
+    deleteById(id: string): Promise<void>;
 }

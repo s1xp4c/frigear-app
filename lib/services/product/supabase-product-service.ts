@@ -2,7 +2,7 @@ import type {SupabaseClient} from "@supabase/supabase-js";
 import type {Product, ProductService} from "@/lib/services/product/product-service";
 
 export default class SupabaseProductService implements ProductService {
-    private select = 'id, name, created_at';
+    private select = '*';
 
     constructor(
         private client: SupabaseClient
@@ -70,5 +70,14 @@ export default class SupabaseProductService implements ProductService {
         if (error) throw error;
 
         return data;
+    }
+
+    async deleteById(id: string): Promise<void> {
+        const {error} = await this.client
+            .from('product')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
     }
 }
