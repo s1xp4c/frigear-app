@@ -11,8 +11,11 @@ describe('services/product/product-service', () => {
     let repository: ProductRepository;
     let productService: ProductService;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         client = createSupabaseServiceRoleClient();
+    });
+
+    beforeEach(async () => {
         repository = new SupabaseProductRepository(client);
         productService = new ProductService(repository);
         await productService.deleteAll();
