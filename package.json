@@ -27,12 +27,14 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@snaplet/copycat": "^5.0.0",
     "@testing-library/react": "14.1.2",
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^1.6.0",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
     "jsdom": "^23.2.0",

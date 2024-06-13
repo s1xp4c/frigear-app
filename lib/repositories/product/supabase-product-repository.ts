@@ -1,7 +1,9 @@
 import type {SupabaseClient} from "@supabase/supabase-js";
-import type {Product, ProductService} from "@/lib/services/product/product-service";
+import {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
+import {translateSupabaseError} from "@/utils/supabase/middleware";
+import {NotFoundError, ValidationError} from "@/lib/errors";
 
-export default class SupabaseProductService implements ProductService {
+export default class SupabaseProductRepository implements ProductRepository {
     private select = '*';
 
     constructor(
@@ -13,8 +15,8 @@ export default class SupabaseProductService implements ProductService {
         const {data, error} = await this.client
             .from('product')
             .select<typeof this.select, Product>(this.select);
-        if (!data) throw new Error('Not found.');
-        if (error) throw error;
+        await translateSupabaseError(error);
+        if (!data) throw new NotFoundError();
 
         return data
     }
@@ -26,10 +28,9 @@ export default class SupabaseProductService implements ProductService {
             .eq('id', id)
             .maybeSingle();
 
-        if (!data) throw new Error('Not found.');
-        if (error) throw error;
+        await translateSupabaseError(error);
 
-        return data;
+        return data as Product;
     }
 
     async getBySlug(slug: string): Promise<Product> {
@@ -39,37 +40,39 @@ export default class SupabaseProductService implements ProductService {
             .eq('slug', slug)
             .maybeSingle();
 
-        if (!data) throw new Error('Not found.');
-        if (error) throw error;
+        if(!data) throw new NotFoundError();
 
-        return data;
+        return data as Product;
     }
 
-    async create(attributes: Partial<Omit<Product, "id">>): Promise<Product> {
+    async create(attributes: CreateProduct): Promise<Product> {
         const {data, error} = await this.client
             .from('product')
             .insert(attributes)
             .select<typeof this.select, Product>(this.select)
             .maybeSingle();
 
-        if (!data) throw new Error('Not found.');
-        if (error) throw error;
+        //Catch duplicate field errors.
+        if(error && error.code && error.code === '23505' && error.details){
+            throw new ValidationError(error.details)
+        }
 
-        return data;
+        if(error) throw error;
+
+        return data as Product;
     }
 
-    async updateById(id: string, attributes: Partial<Product>): Promise<Product> {
+    async updateById(id: string, attributes: UpdateProduct): Promise<Product> {
         const {data, error} = await this.client
             .from('product')
             .update(attributes)
             .eq('id', id)
             .select<typeof this.select, Product>(this.select)
-            .maybeSingle();
+            .single();
 
-        if (!data) throw new Error('Not found.');
-        if (error) throw error;
+        if(error) throw error;
 
-        return data;
+        return data as Product;
     }
 
     async deleteById(id: string): Promise<void> {
@@ -78,6 +81,14 @@ export default class SupabaseProductService implements ProductService {
             .delete()
             .eq('id', id);
 
-        if (error) throw error;
+        if(error) throw error;
+    }
+
+    async deleteAll(): Promise<void> {
+        const {error} = await this.client.from('product')
+            .delete({count: 'exact'})
+            .in('active', [true, false]);
+
+        if(error) throw error;
     }
 }

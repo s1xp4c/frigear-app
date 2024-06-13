@@ -1,9 +1,10 @@
 import StripeWebhookHandler, {type IStripeWebhookHandler} from "@/lib/services/stripe/stripe-webhook-handler";
-import {ProductService} from "@/lib/services/product/product-service";
-import SupabaseProductService from "@/lib/services/product/supabase-product-service";
+import ProductService from "@/lib/services/product/product-service";
 import {createSupabaseServerClient, createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
+import type {ProductRepository} from "@/lib/repositories/product/product-repository";
+import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 
 
 export interface ServerContainer {
@@ -11,6 +12,7 @@ export interface ServerContainer {
     supabaseClient: SupabaseClient
     stripeWebhookHandler: IStripeWebhookHandler;
     productService: ProductService;
+    productRepository: ProductRepository;
 }
 
 let containerInstance: DependencyContainer<ServerContainer> | undefined;
@@ -21,9 +23,12 @@ export function serverContainer(): DependencyContainer<ServerContainer> {
         containerInstance.service('supabaseServiceClient', () => createSupabaseServiceRoleClient());
         containerInstance.service('supabaseClient', () => createSupabaseServerClient());
         containerInstance.service('stripeWebhookHandler', () => new StripeWebhookHandler());
+        containerInstance.service('productRepository', (container) => {
+            return new SupabaseProductRepository(container.get('supabaseClient'));
+        });
         containerInstance.service('productService', (container) => {
-            return new SupabaseProductService(container.get('supabaseServiceClient'));
-        })
+            return new ProductService(container.get('productRepository'));
+        });
     }
 
     return containerInstance;

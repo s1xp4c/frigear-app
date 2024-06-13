@@ -1,5 +1,5 @@
 import {it, describe, expect, vi} from "vitest";
-import {DependencyContainer} from "../../lib/dependency-container";
+import {DependencyContainer} from "@/lib/dependency-container";
 
 describe('lib/dependency-container', () => {
     it('should call factories on-demand', () => {
