@@ -1,4 +1,4 @@
-name: 'database-tests'
+name: 'tests'
 on:
   pull_request:
   push:
@@ -17,4 +17,4 @@ jobs:
           version: '8.15.6'
       - run: pnpm install
       - run: cp .env.example .env.test && cp .env.test .env
-      - run: pnpm run test:code --run
+      - run: pnpm run test
