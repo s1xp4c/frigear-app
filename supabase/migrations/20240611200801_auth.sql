@@ -105,11 +105,18 @@ execute function public.handle_auth_user_created();
 
 -- Searching for user id by email address
 create or replace function get_user_id_by_email(email text)
-    returns table(id uuid)
+    returns table
+            (
+                id UUID
+            )
     language plpgsql
-    SECURITY definer
-as $$
+    security definer
+as
+$$
 begin
-    return au.id from auth.users au where au.email = $1;
+    return query
+        select au.id
+        from auth.users au
+        where au.email = email;
 end;
 $$;
