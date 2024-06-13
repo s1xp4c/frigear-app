@@ -13,5 +13,7 @@ jobs:
           version: latest
       - run: supabase db start
       - uses: pnpm/action-setup@v4
+        with:
+          version: '8.15.6'
       - run: pnpm install
       - run: pnpm run test:code --run

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "test": "pnpm run test:code --run && pnpm run db:test",
+    "test": "pnpm run db:test && pnpm run test:code --run",
     "test:code": "vitest --coverage",
     "db:test": "supabase db test",
     "db:reset": "supabase db reset",
