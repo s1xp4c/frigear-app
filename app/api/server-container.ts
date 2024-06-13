@@ -15,21 +15,14 @@ export interface ServerContainer {
     productRepository: ProductRepository;
 }
 
-let containerInstance: DependencyContainer<ServerContainer> | undefined;
+export const serverContainer = new DependencyContainer<ServerContainer>();
 
-export function serverContainer(): DependencyContainer<ServerContainer> {
-    if (!containerInstance) {
-        containerInstance = new DependencyContainer()
-        containerInstance.service('supabaseServiceClient', () => createSupabaseServiceRoleClient());
-        containerInstance.service('supabaseClient', () => createSupabaseServerClient());
-        containerInstance.service('stripeWebhookHandler', () => new StripeWebhookHandler());
-        containerInstance.service('productRepository', (container) => {
-            return new SupabaseProductRepository(container.get('supabaseClient'));
-        });
-        containerInstance.service('productService', (container) => {
-            return new ProductService(container.get('productRepository'));
-        });
-    }
-
-    return containerInstance;
-}
+serverContainer.service('supabaseServiceClient', () => createSupabaseServiceRoleClient());
+serverContainer.service('supabaseClient', () => createSupabaseServerClient());
+serverContainer.service('stripeWebhookHandler', () => new StripeWebhookHandler());
+serverContainer.service('productRepository', (container) => {
+    return new SupabaseProductRepository(container.get('supabaseClient'));
+});
+serverContainer.service('productService', (container) => {
+    return new ProductService(container.get('productRepository'));
+});
