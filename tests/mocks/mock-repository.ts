@@ -2,14 +2,26 @@ import {CreateProduct, Product, UpdateProduct} from "@/lib/repositories/product"
 import {NotFoundError} from "@/lib/errors";
 import {copycat} from "@snaplet/copycat";
 import {IRepository} from "@/lib/types";
+import {IPriceRepository} from "@/lib/repositories/product/stripe-price-repository";
+import {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
 
 export default class MockRepository<
-    Entity extends object,
+    Key extends  any = string,
+    Entity extends object = Product,
     Create extends object = CreateProduct,
     Update extends object = UpdateProduct,
-> implements IRepository<string, Entity, Create, Update> {
+> implements IRepository<Key, Entity, Create, Update> {
     constructor(
         private state: Entity[] = [],
+        private mapping: {
+            id: string;
+            slug: string;
+            secondary_id: string;
+        } = {
+            id: 'id',
+            slug: 'slug',
+            secondary_id: 'stripe_id',
+        }
     ) {
     }
 
@@ -17,8 +29,8 @@ export default class MockRepository<
         return this.state;
     }
 
-    async getById(id: string): Promise<Entity> {
-        const entity = this.state.find(row => row.id === id);
+    async getById(id: Key): Promise<Entity> {
+        const entity = this.state.find(row => row[this.mapping.id as never] === id);
         if (!entity) {
             throw new NotFoundError();
         }
@@ -26,7 +38,7 @@ export default class MockRepository<
     }
 
     async getBySlug(slug: string): Promise<Entity> {
-        const entity = this.state.find(row => row.slug === slug);
+        const entity = this.state.find(row => row[this.mapping.slug as never] === slug);
         if (!entity) {
             throw new NotFoundError();
         }
@@ -34,7 +46,7 @@ export default class MockRepository<
     }
 
     async getBySecondaryId(stripeId: string): Promise<Entity> {
-        const product = this.state.find(row => row.stripe_id === stripeId);
+        const product = this.state.find(row => row[this.mapping.secondary_id as never] === stripeId);
         if (!product) {
             throw new NotFoundError();
         }
@@ -50,8 +62,8 @@ export default class MockRepository<
         return this.state[index];
     }
 
-    async updateById(id: string, attributes: Partial<Update>): Promise<Entity> {
-        const index = this.state.findIndex(row => row.id === id);
+    async updateById(id: Key, attributes: Partial<Update>): Promise<Entity> {
+        const index = this.state.findIndex(row => row[this.mapping.id as never] === id);
 
         if (index === -1) {
             throw new NotFoundError();
@@ -60,8 +72,8 @@ export default class MockRepository<
         return this.state[index] = {...this.state[index], ...attributes};
     }
 
-    async deleteById(id: string): Promise<void> {
-        const index = this.state.findIndex(row => row.id === id);
+    async deleteById(id: Key): Promise<void> {
+        const index = this.state.findIndex(row => row[this.mapping.id as never] === id);
         if (index === -1) {
             throw new NotFoundError();
         }

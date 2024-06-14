@@ -2,9 +2,13 @@ import type {SupabaseClient} from "@supabase/supabase-js";
 import {CreateProduct, Product, UpdateProduct} from "@/lib/repositories/product/index";
 import {translateSupabaseError} from "@/utils/supabase/middleware";
 import {NotFoundError} from "@/lib/errors";
-import {IRepository} from "@/lib/types";
+import type {IRepository} from "@/lib/types";
 
-export default class SupabaseProductRepository implements IRepository {
+export interface IProductRepository extends IRepository<string, Product, CreateProduct, UpdateProduct> {
+
+}
+
+export default class SupabaseProductRepository implements IProductRepository {
     private select = '*';
 
     constructor(

@@ -1,7 +1,11 @@
 import type Stripe from "stripe";
 import type {IRepository} from "@/lib/types";
 
-export default class StripePriceRepository implements IRepository<string, Stripe.Price, Stripe.PriceCreateParams, Stripe.PriceUpdateParams> {
+export interface IPriceRepository extends IRepository<string, Stripe.Price, Stripe.PriceCreateParams, Stripe.PriceUpdateParams>{
+
+}
+
+export default class StripePriceRepository implements IPriceRepository{
     constructor(private stripe: Stripe) {
     }
 

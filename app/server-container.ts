@@ -30,34 +30,41 @@ export interface ServerContainer {
     stripeProductIOService: StripeProductIOService;
 }
 
-export const apiContainer = new DependencyContainer<ServerContainer>();
+export const serverContainer = new DependencyContainer<ServerContainer>();
 
-apiContainer.instance('supabaseServiceClient', () => createSupabaseServiceRoleClient());
-apiContainer.instance('supabaseClient', () => createSupabaseServerClient());
-apiContainer.instance('productRepository', (container) => {
+serverContainer.instance('supabaseServiceClient', () => createSupabaseServiceRoleClient());
+serverContainer.instance('supabaseClient', () => createSupabaseServerClient());
+serverContainer.instance('productRepository', (container) => {
     //It is important that we pass the correct client on the server
     // supabaseClient is the anon OR authenticated user's token being used
     return new SupabaseProductRepository(container.get('supabaseClient'));
 });
-apiContainer.instance('productService', (container) => {
+serverContainer.instance('productService', (container) => {
     return new ProductService(container.get('productRepository'), container.get('stripePriceService'));
 });
-apiContainer.instance('adminProductRepository', (container) => {
+serverContainer.instance('adminProductRepository', (container) => {
     return new SupabaseProductRepository(container.get('supabaseServiceClient'));
 })
-apiContainer.instance('adminProductService', (container) => {
+serverContainer.instance('adminProductService', (container) => {
     return new ProductService(container.get('adminProductRepository'), container.get('stripePriceService'));
 });
-apiContainer.instance('userService', (container) => {
+serverContainer.instance('userService', (container) => {
     return new UserService(container.get('supabaseServiceClient'));
 });
-apiContainer.instance('stripeClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
-apiContainer.instance('stripeProductService', (container) => {
+serverContainer.instance('stripeClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
+serverContainer.instance('stripeProductService', (container) => {
     return new StripeProductService(container.get('stripeClient'));
 });
-apiContainer.instance('stripePriceService', (container) => {
+serverContainer.instance('stripePriceService', (container) => {
     return new StripePriceRepository(container.get('stripeClient'));
 })
-apiContainer.instance('stripeWebhookHandler', (container) => {
+serverContainer.instance('stripeWebhookHandler', (container) => {
     return new StripeWebhookHandler(container.get('adminProductService'));
+});
+
+serverContainer.instance('stripeProductIOService', (container) => {
+    return new StripeProductIOService(
+        container.get('adminProductService'),
+        container.get('stripeProductService'),
+    );
 });

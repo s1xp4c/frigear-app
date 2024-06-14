@@ -1,8 +1,7 @@
 import {NextResponse} from "next/server";
 import {IProductService} from "@/lib/services/product/product-service";
 import type Stripe from 'stripe';
-import {NotFoundError} from "@/lib/errors";
-import {HEADER_ERROR_REASON} from "@/lib/constants";
+import {NotFoundError, ValidationError} from "@/lib/errors";
 import {transformStripeProduct} from "@/utils/stripe/helpers";
 
 
@@ -29,12 +28,8 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
     async handleEvent({type, data}: StripeWebhookEvent): Promise<NextResponse> {
         //Ensures we do not allow filling from test keys.
         if (process.env.STRIPE_PRODUCT_SYNC_LIVEMODE && data.object.livemode === false) {
-            return new NextResponse('', {
+            return new NextResponse('',{
                 status: 422,
-                statusText: 'Unprocessable entity.',
-                headers: {
-                    [HEADER_ERROR_REASON]: 'Livemode is enforced.'
-                }
             });
         }
 

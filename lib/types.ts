@@ -1,5 +1,3 @@
-import {CreateProduct, Product, UpdateProduct} from "@/lib/repositories/product";
-
 export type RequiredKeys<T> = {
     [K in keyof T]-?: undefined extends T[K] ? never : K
 }[keyof T];

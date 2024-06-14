@@ -5,7 +5,6 @@ import ProductService, {IProductService} from "@/lib/services/product/product-se
 import {buildStripeEvent, buildStripeProduct} from "@/tests/mock-data";
 import type Stripe from "stripe";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import type StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
 import {IRepository} from "@/lib/types";
 
 describe('service/webhooks/stripe-webhook-handler', () => {

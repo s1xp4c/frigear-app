@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {apiContainer} from "@/app/api-container";
+import {serverContainer} from "@/app/server-container";
 
 export async function POST(request: NextRequest) {
-    return NextResponse.json(apiContainer.get('stripeWebhookHandler').handleEvent(await request.json()));
+    return NextResponse.json(serverContainer.get('stripeWebhookHandler').handleEvent(await request.json()));
 }

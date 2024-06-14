@@ -5,6 +5,7 @@ import type {
 } from "@/lib/repositories/product";
 import type Stripe from "stripe";
 import type {IRepository} from "@/lib/types";
+import {IPriceRepository} from "@/lib/repositories/product/stripe-price-repository";
 
 export interface IProductService {
     all(): Promise<Product[]>;
@@ -41,7 +42,7 @@ const wrapTryCatch = async <R extends any>(callback: () => Promise<R>): Promise<
 export default class ProductService implements IProductService {
     constructor(
         private repository: IRepository,
-        private priceRepository: IRepository,
+        private priceRepository: IPriceRepository,
     ) {
     }
 

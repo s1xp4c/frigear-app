@@ -27,7 +27,10 @@ export const buildStripeProduct = (fields?: Stripe.ProductCreateParams | undefin
     } as Stripe.Product;
 }
 
-export const buildStripePrice = (fields?: Stripe.PriceCreateParams & { id?: string, currency?:string }): Stripe.Price => {
+export const buildStripePrice = (fields?: Partial<Stripe.PriceCreateParams> & {
+    id?: string,
+    currency?: string
+}): Stripe.Price => {
     return {
         id: "price_1MoBy5LkdIwHu7ixZhnattbh",
         object: "price",
@@ -45,6 +48,7 @@ export const buildStripePrice = (fields?: Stripe.PriceCreateParams & { id?: stri
             trial_period_days: null,
             usage_type: "licensed"
         } as never,
+        custom_unit_amount: '',
         tax_behavior: "unspecified",
         tiers_mode: null,
         transform_quantity: null,

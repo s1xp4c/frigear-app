@@ -28,7 +28,7 @@ yarn-error.log*
 # Main .env file (shall always be pulled from a safe location)
 .env
 # local env files
-.env*.local
+.env.*
 
 # vercel
 .vercel
