@@ -5,6 +5,8 @@ import {ProductRepository} from "@/lib/repositories/product/product-repository";
 import ProductService from "@/lib/services/product/product-service";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 import {copycat} from "@snaplet/copycat";
+import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
+import type StripePriceService from "@/lib/services/product/stripe-price-service";
 
 describe('services/product/product-service', () => {
     let client: SupabaseClient;
@@ -14,7 +16,7 @@ describe('services/product/product-service', () => {
     beforeAll(async () => {
         client = createSupabaseServiceRoleClient();
         repository = new SupabaseProductRepository(client);
-        productService = new ProductService(repository);
+        productService = new ProductService(repository, new MockStripePriceService() as StripePriceService);
     });
 
     beforeEach(async () => {
@@ -37,9 +39,9 @@ describe('services/product/product-service', () => {
         expect(name).toBe('Test product');
     });
 
-    it('should throw errors on create', async () => {
+    it('should throw validation errors on create', async () => {
         const slug = 'test';
-        const firstProduct = await productService.create({
+        await productService.create({
             name: 'Test product',
             slug,
         });
@@ -48,7 +50,6 @@ describe('services/product/product-service', () => {
             name: 'Test product2',
             slug,
         })).rejects.toThrow('Key (slug)=(test) already exists.');
-
 
         await productService.deleteAll();
     });
@@ -71,11 +72,11 @@ describe('services/product/product-service', () => {
             name: 'Product',
             slug: 'product',
         });
+        expect(id).toBeDefined();
 
         const {name} = await productService.updateById(id, {
             name: 'New name'
         });
-
         expect(name).toBe('New name');
     });
 
@@ -84,6 +85,21 @@ describe('services/product/product-service', () => {
             name: 'Product',
             slug: 'product',
         });
+        expect(id).toBeDefined();
+
         await productService.deleteById(id);
+    });
+
+    it('should fetch product by slug', async () => {
+        const{ slug} = await productService.create({
+            name: 'name',
+            slug:'slug',
+        });
+        expect(slug).toBeDefined();
+
+        const {id} = await productService.getBySlug(slug) || {};
+        expect(id).toBeDefined();
+
+        await productService.deleteById(id!);
     });
 })

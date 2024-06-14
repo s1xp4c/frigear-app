@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "cli": "npx tsx cli",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -12,20 +13,23 @@
     "test:code": "vitest --coverage",
     "db:test": "supabase db test",
     "db:reset": "supabase db reset",
-    "stripe:listen": "docker run --rm -it stripe/stripe-cli listen --forward-to http://localhost:3000/api/webhooks/stripe",
+    "stripe:listen": "docker run --rm -it stripe/stripe-cli listen --forward-to http://host.docker.internal:3000/api/webhooks/stripe",
     "stripe:trigger": "docker run --rm -it --network host stripe/stripe-cli trigger"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.0.2",
-    "@secjs/ioc": "^1.0.8",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
     "next": "14.2.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "scule": "^1.3.0",
+    "stripe": "^15.11.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@snaplet/copycat": "^5.0.0",
@@ -33,8 +37,10 @@
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^9.0.8",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^1.6.0",
+    "citty": "^0.1.6",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",

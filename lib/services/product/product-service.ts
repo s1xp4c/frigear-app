@@ -1,12 +1,15 @@
 import {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
-import {translateSupabaseError} from "@/utils/supabase/middleware";
+import StripePriceService from "@/lib/services/product/stripe-price-service";
+import {ValidationError} from "@/lib/errors";
 
 export interface IProductService {
     all(): Promise<Product[]>;
 
-    getById(id: string): Promise<Product>;
+    getById(id: string): Promise<Product | undefined>;
 
-    getBySlug(slug: string): Promise<Product>;
+    getBySlug(slug: string): Promise<Product | undefined>;
+
+    getByStripeId(id: string): Promise<Product | undefined>;
 
     create(product: CreateProduct): Promise<Product>;
 
@@ -17,9 +20,22 @@ export interface IProductService {
     deleteAll(): Promise<void>;
 }
 
+const wrapTryCatch = async <R extends any>(callback: () => Promise<R>): Promise<R | undefined> => {
+    try {
+        return await callback();
+    } catch (err: any) {
+        if (err.name === 'NotFoundError') {
+            return undefined;
+        }
+
+        throw err;
+    }
+}
+
 export default class ProductService implements IProductService {
     constructor(
         private repository: ProductRepository,
+        private stripePriceService: StripePriceService,
     ) {
     }
 
@@ -31,19 +47,44 @@ export default class ProductService implements IProductService {
         return await this.repository.all();
     }
 
-    async getById(id: string): Promise<Product> {
-        return await this.repository.getById(id);
+    async getById(id: string): Promise<Product | undefined> {
+        return wrapTryCatch(async () => this.repository.getById(id));
     }
 
-    async getBySlug(slug: string): Promise<Product> {
-        return await this.repository.getBySlug(slug);
+    async getBySlug(slug: string): Promise<Product | undefined> {
+        return wrapTryCatch(async () => this.repository.getBySlug(slug))
     }
 
-    async create(product: CreateProduct): Promise<Product> {
-        return await this.repository.create(product);
+    async getByStripeId(id: string): Promise<Product | undefined> {
+        return wrapTryCatch(async () => this.repository.getByStripeId(id));
+    }
+
+    async create(attributes: CreateProduct): Promise<Product> {
+        if (attributes.default_price_id) {
+            const price = await this.stripePriceService.getPriceById(attributes.default_price_id);
+            if (price.unit_amount) {
+                attributes.price = price.unit_amount / 100;
+            }
+        }
+
+        const createdProduct = await wrapTryCatch(async () => await this.repository.create(attributes));
+        if (!createdProduct) {
+            throw new ValidationError('Could not create product.');
+        }
+
+        return createdProduct;
     }
 
     async updateById(id: string, attributes: UpdateProduct): Promise<Product> {
+        const product = await this.repository.getById(id);
+
+        if (attributes.default_price_id && product.default_price_id !== attributes.default_price_id) {
+            const price = await this.stripePriceService.getPriceById(attributes.default_price_id);
+            if (price.unit_amount) {
+                attributes.price = price.unit_amount / 100;
+            }
+        }
+
         return await this.repository.updateById(id, attributes);
     }
 

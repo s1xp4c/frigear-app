@@ -1,7 +1,7 @@
 import type {SupabaseClient} from "@supabase/supabase-js";
 import {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
 import {translateSupabaseError} from "@/utils/supabase/middleware";
-import {NotFoundError, ValidationError} from "@/lib/errors";
+import {NotFoundError} from "@/lib/errors";
 
 export default class SupabaseProductRepository implements ProductRepository {
     private select = '*';
@@ -40,7 +40,21 @@ export default class SupabaseProductRepository implements ProductRepository {
             .eq('slug', slug)
             .maybeSingle();
 
-        if(!data) throw new NotFoundError();
+        await translateSupabaseError(error);
+        if (!data) throw new NotFoundError();
+
+        return data as Product;
+    }
+
+    async getByStripeId(stripeId: string): Promise<Product> {
+        const {data, error} = await this.client
+            .from('product')
+            .select<typeof this.select, Product>(this.select)
+            .eq('stripe_id', stripeId)
+            .maybeSingle();
+
+        await translateSupabaseError(error);
+        if (!data) throw new NotFoundError();
 
         return data as Product;
     }
@@ -52,12 +66,9 @@ export default class SupabaseProductRepository implements ProductRepository {
             .select<typeof this.select, Product>(this.select)
             .maybeSingle();
 
-        //Catch duplicate field errors.
-        if(error && error.code && error.code === '23505' && error.details){
-            throw new ValidationError(error.details)
-        }
+        await translateSupabaseError(error)
 
-        if(error) throw error;
+        if (!data) throw new Error('Could not create product.');
 
         return data as Product;
     }
@@ -70,7 +81,7 @@ export default class SupabaseProductRepository implements ProductRepository {
             .select<typeof this.select, Product>(this.select)
             .single();
 
-        if(error) throw error;
+        await translateSupabaseError(error);
 
         return data as Product;
     }
@@ -81,7 +92,7 @@ export default class SupabaseProductRepository implements ProductRepository {
             .delete()
             .eq('id', id);
 
-        if(error) throw error;
+        await translateSupabaseError(error);
     }
 
     async deleteAll(): Promise<void> {
@@ -89,6 +100,6 @@ export default class SupabaseProductRepository implements ProductRepository {
             .delete({count: 'exact'})
             .in('active', [true, false]);
 
-        if(error) throw error;
+        await translateSupabaseError(error);
     }
 }

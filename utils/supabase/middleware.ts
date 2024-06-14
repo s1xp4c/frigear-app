@@ -66,13 +66,16 @@ export const updateSession = async (request: NextRequest) => {
 };
 
 
-export async function translateSupabaseError(error: any, messages: {
-    duplicate_key?: string;
-} = {}) {
+export async function translateSupabaseError(
+    error: any,
+    messages: {
+        duplicate_key?: string;
+    } = {}
+) {
     //duplicate key value violates unique constraint "product_slug_key"
     if (error && error.code && error.code === '23505') {
-        throw new ValidationError(messages.duplicate_key || error.message);
+        throw new ValidationError(error.details || messages.duplicate_key || error.message);
     }
 
-    if(error) throw error;
+    if (error) throw error;
 }

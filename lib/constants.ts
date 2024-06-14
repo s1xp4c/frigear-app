@@ -1,0 +1,1 @@
+export const HEADER_ERROR_REASON = 'X-Error-Reason';
