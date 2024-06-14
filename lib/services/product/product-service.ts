@@ -67,12 +67,7 @@ export default class ProductService implements IProductService {
             }
         }
 
-        const createdProduct = await wrapTryCatch(async () => await this.repository.create(attributes));
-        if (!createdProduct) {
-            throw new ValidationError('Could not create product.');
-        }
-
-        return createdProduct;
+        return await wrapTryCatch(async () => await this.repository.create(attributes)) as Product;
     }
 
     async updateById(id: string, attributes: UpdateProduct): Promise<Product> {
