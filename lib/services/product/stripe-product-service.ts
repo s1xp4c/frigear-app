@@ -1,32 +1,47 @@
 import type Stripe from "stripe";
 
-export default class StripeProductService {
+import {IRepository} from "@/lib/types";
+
+export default class StripeProductService implements IRepository<string, Stripe.Product, Stripe.ProductCreateParams, Stripe.ProductUpdateParams> {
     constructor(
         private stripe: Stripe,
     ) {
     }
 
     async all(limit: number = 300) {
-        const products = await this.stripe.products.list({limit})
-        return products.data;
+        const {data} = await this.stripe.products.list({limit});
+        return data;
     }
 
     async getById(id: string) {
-        const product = await this.stripe.products.retrieve(id);
-        return product as Stripe.Product;
+        return await this.stripe.products.retrieve(id);
+    }
+
+    async getBySlug(slug: string): Promise<Stripe.Product> {
+        return this.getById(slug);
+    }
+
+    async getBySecondaryId(stripeId: string): Promise<Stripe.Product> {
+        return this.getById(stripeId);
     }
 
     async create(params: Stripe.ProductCreateParams) {
-        const product = await this.stripe.products.create(params);
-        return product as Stripe.Product;
+        return await this.stripe.products.create(params);
     }
 
-    async update(id: string, params: Stripe.ProductUpdateParams) {
-        const product = await this.stripe.products.update(id, params);
-        return product as Stripe.Product;
+    async updateById(id: string, attributes: Partial<Stripe.ProductUpdateParams>): Promise<Stripe.Product> {
+        return await this.stripe.products.update(id, attributes);
     }
 
-    async delete(id: string) {
-        return await this.stripe.products.del(id) as Stripe.DeletedProduct;
+    async deleteAll(): Promise<void> {
+        const allProducts = await this.all();
+        await Promise.all(allProducts.map(async (product) => {
+            await this.deleteById(product.id);
+        }));
     }
+
+    async deleteById(id: string): Promise<void> {
+        await this.stripe.products.del(id);
+    }
+
 }

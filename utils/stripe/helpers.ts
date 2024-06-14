@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import {kebabCase} from "scule";
 import moment from "moment/moment";
-import {Product} from "@/lib/repositories/product/product-repository";
+import {Product} from "@/lib/repositories/product";
 import {StripeWebhookEventData} from "@/lib/services/webhooks/stripe-webhook-handler";
 
 export function transformStripeProduct(data: StripeWebhookEventData): Product {

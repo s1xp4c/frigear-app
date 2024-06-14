@@ -1,8 +1,9 @@
 import {buildStripePrice} from "@/tests/mock-data";
-import StripePriceService from "@/lib/services/product/stripe-price-service";
+import MockRepository from "@/tests/mocks/mock-repository";
+import type Stripe from "stripe";
 
-export default class MockStripePriceService{
-    async getPriceById(id: string) {
+export default class MockStripePriceService extends MockRepository<Stripe.Price> {
+    async getById(id: string) {
         return buildStripePrice({id} as never);
     }
 }

@@ -2,13 +2,13 @@ import AuthenticationService from "@/lib/services/auth/authentication-service";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
 import {createSupabaseBrowserClient} from "@/utils/supabase/client";
-import {ProductRepository} from "@/lib/repositories/product/product-repository";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
+import {IRepository} from "@/lib/types";
 
 export interface AppContainer {
     supabaseClient: SupabaseClient;
     authenticationService: AuthenticationService;
-    productRepository: ProductRepository;
+    productRepository: IRepository;
 }
 
 export const appContainer = new DependencyContainer<AppContainer>();

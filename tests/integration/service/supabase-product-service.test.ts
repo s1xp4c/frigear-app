@@ -1,22 +1,22 @@
 import {afterEach, beforeAll, beforeEach, describe, expect, it} from "vitest";
 import {createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {SupabaseClient} from "@supabase/supabase-js";
-import {ProductRepository} from "@/lib/repositories/product/product-repository";
 import ProductService from "@/lib/services/product/product-service";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 import {copycat} from "@snaplet/copycat";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import type StripePriceService from "@/lib/services/product/stripe-price-service";
+import type StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
+import {IRepository} from "@/lib/types";
 
 describe('services/product/product-service', () => {
     let client: SupabaseClient;
-    let repository: ProductRepository;
+    let repository: IRepository;
     let productService: ProductService;
 
     beforeAll(async () => {
         client = createSupabaseServiceRoleClient();
         repository = new SupabaseProductRepository(client);
-        productService = new ProductService(repository, new MockStripePriceService() as StripePriceService);
+        productService = new ProductService(repository, new MockStripePriceService());
     });
 
     beforeEach(async () => {

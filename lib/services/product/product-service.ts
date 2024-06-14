@@ -1,5 +1,10 @@
-import type {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
-import type StripePriceService from "@/lib/services/product/stripe-price-service";
+import type {
+    CreateProduct,
+    Product,
+    UpdateProduct
+} from "@/lib/repositories/product";
+import type Stripe from "stripe";
+import type {IRepository} from "@/lib/types";
 
 export interface IProductService {
     all(): Promise<Product[]>;
@@ -19,6 +24,8 @@ export interface IProductService {
     deleteAll(): Promise<void>;
 }
 
+export type ProductPrice = Stripe.Price;
+
 const wrapTryCatch = async <R extends any>(callback: () => Promise<R>): Promise<R | undefined> => {
     try {
         return await callback();
@@ -33,8 +40,8 @@ const wrapTryCatch = async <R extends any>(callback: () => Promise<R>): Promise<
 
 export default class ProductService implements IProductService {
     constructor(
-        private repository: ProductRepository,
-        private stripePriceService: StripePriceService,
+        private repository: IRepository,
+        private priceRepository: IRepository,
     ) {
     }
 
@@ -55,12 +62,12 @@ export default class ProductService implements IProductService {
     }
 
     async getByStripeId(id: string): Promise<Product | undefined> {
-        return wrapTryCatch(async () => this.repository.getByStripeId(id));
+        return wrapTryCatch(async () => this.repository.getBySecondaryId(id));
     }
 
     async create(attributes: CreateProduct): Promise<Product> {
         if (attributes.default_price_id) {
-            const price = await this.stripePriceService.getPriceById(attributes.default_price_id);
+            const price = await this.priceRepository.getById(attributes.default_price_id);
             if (price.unit_amount) {
                 attributes.price = price.unit_amount / 100;
             }
@@ -73,7 +80,7 @@ export default class ProductService implements IProductService {
         const product = await this.repository.getById(id);
 
         if (attributes.default_price_id && product.default_price_id !== attributes.default_price_id) {
-            const price = await this.stripePriceService.getPriceById(attributes.default_price_id);
+            const price = await this.priceRepository.getById(attributes.default_price_id);
             if (price.unit_amount) {
                 attributes.price = price.unit_amount / 100;
             }

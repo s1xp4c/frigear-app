@@ -1,34 +1,39 @@
-import {CreateProduct, Product, ProductRepository} from "@/lib/repositories/product/product-repository";
+import {CreateProduct, Product, UpdateProduct} from "@/lib/repositories/product";
 import {NotFoundError} from "@/lib/errors";
 import {copycat} from "@snaplet/copycat";
+import {IRepository} from "@/lib/types";
 
-export default class MockProductRepository implements ProductRepository {
+export default class MockRepository<
+    Entity extends object,
+    Create extends object = CreateProduct,
+    Update extends object = UpdateProduct,
+> implements IRepository<string, Entity, Create, Update> {
     constructor(
-        private state: Product[] = [],
+        private state: Entity[] = [],
     ) {
     }
 
-    async all(): Promise<Product[]> {
+    async all(): Promise<Entity[]> {
         return this.state;
     }
 
-    async getById(id: string): Promise<Product> {
-        const product = this.state.find(row => row.id === id);
-        if (!product) {
+    async getById(id: string): Promise<Entity> {
+        const entity = this.state.find(row => row.id === id);
+        if (!entity) {
             throw new NotFoundError();
         }
-        return product;
+        return entity;
     }
 
-    async getBySlug(slug: string): Promise<Product> {
-        const product = this.state.find(row => row.slug === slug);
-        if (!product) {
+    async getBySlug(slug: string): Promise<Entity> {
+        const entity = this.state.find(row => row.slug === slug);
+        if (!entity) {
             throw new NotFoundError();
         }
-        return product;
+        return entity;
     }
 
-    async getByStripeId(stripeId: string): Promise<Product> {
+    async getBySecondaryId(stripeId: string): Promise<Entity> {
         const product = this.state.find(row => row.stripe_id === stripeId);
         if (!product) {
             throw new NotFoundError();
@@ -36,16 +41,16 @@ export default class MockProductRepository implements ProductRepository {
         return product;
     }
 
-    async create(product: CreateProduct): Promise<Product> {
+    async create(product: Create): Promise<Entity> {
         const index = this.state.push({
             id: copycat.uuid(JSON.stringify(product)),
             ...product,
-        } as Product);
+        } as never as Entity);
 
         return this.state[index];
     }
 
-    async updateById(id: string, attributes: Partial<CreateProduct>): Promise<Product> {
+    async updateById(id: string, attributes: Partial<Update>): Promise<Entity> {
         const index = this.state.findIndex(row => row.id === id);
 
         if (index === -1) {

@@ -3,13 +3,13 @@ import ProductService, {IProductService} from "@/lib/services/product/product-se
 import {createSupabaseServerClient, createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
-import type {ProductRepository} from "@/lib/repositories/product/product-repository";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 import UserService from "@/lib/services/admin/user-service";
 import Stripe from "stripe";
 import StripeProductService from "@/lib/services/product/stripe-product-service";
-import StripePriceService from "@/lib/services/product/stripe-price-service";
+import StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
 import StripeProductIOService from "@/lib/services/product/stripe-product-io-service";
+import {IRepository} from "@/lib/types";
 
 
 export interface ServerContainer {
@@ -19,13 +19,13 @@ export interface ServerContainer {
     // supabaseClient is the anon OR authenticated user's token being used
     supabaseClient: SupabaseClient;
     productService: IProductService;
-    productRepository: ProductRepository;
+    productRepository: IRepository;
     adminProductService: IProductService;
-    adminProductRepository: ProductRepository;
+    adminProductRepository: IRepository;
     userService: UserService;
-    stripeAdminClient: Stripe
+    stripeClient: Stripe
     stripeProductService: StripeProductService;
-    stripePriceService: StripePriceService;
+    stripePriceService: StripePriceRepository;
     stripeWebhookHandler: IStripeWebhookHandler;
     stripeProductIOService: StripeProductIOService;
 }
@@ -51,19 +51,13 @@ apiContainer.instance('adminProductService', (container) => {
 apiContainer.instance('userService', (container) => {
     return new UserService(container.get('supabaseServiceClient'));
 });
-apiContainer.instance('stripeAdminClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
+apiContainer.instance('stripeClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
 apiContainer.instance('stripeProductService', (container) => {
-    return new StripeProductService(container.get('stripeAdminClient'));
+    return new StripeProductService(container.get('stripeClient'));
 });
 apiContainer.instance('stripePriceService', (container) => {
-    return new StripePriceService(container.get('stripeAdminClient'));
+    return new StripePriceRepository(container.get('stripeClient'));
 })
 apiContainer.instance('stripeWebhookHandler', (container) => {
     return new StripeWebhookHandler(container.get('adminProductService'));
 });
-apiContainer.instance('stripeProductIOService', (container) => {
-    return new StripeProductIOService(
-        container.get('adminProductService'),
-        container.get('stripeProductService'),
-    );
-})

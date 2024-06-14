@@ -1,9 +1,10 @@
 import type {SupabaseClient} from "@supabase/supabase-js";
-import {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
+import {CreateProduct, Product, UpdateProduct} from "@/lib/repositories/product/index";
 import {translateSupabaseError} from "@/utils/supabase/middleware";
 import {NotFoundError} from "@/lib/errors";
+import {IRepository} from "@/lib/types";
 
-export default class SupabaseProductRepository implements ProductRepository {
+export default class SupabaseProductRepository implements IRepository {
     private select = '*';
 
     constructor(
@@ -46,7 +47,7 @@ export default class SupabaseProductRepository implements ProductRepository {
         return data as Product;
     }
 
-    async getByStripeId(stripeId: string): Promise<Product> {
+    async getBySecondaryId(stripeId: string): Promise<Product> {
         const {data, error} = await this.client
             .from('product')
             .select<typeof this.select, Product>(this.select)

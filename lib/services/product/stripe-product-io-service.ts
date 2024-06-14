@@ -3,7 +3,7 @@ import {IProductService} from "@/lib/services/product/product-service";
 import {transformStripeProduct} from "@/utils/stripe/helpers";
 import type {StripeWebhookEventData} from "@/lib/services/webhooks/stripe-webhook-handler";
 import type Stripe from "stripe";
-import type {Product} from "@/lib/repositories/product/product-repository";
+import type {Product} from "@/lib/repositories/product";
 import {upperFirst} from "scule";
 import { v4 as uuidv4 } from 'uuid';
 

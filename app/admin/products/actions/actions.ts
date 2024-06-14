@@ -1,7 +1,7 @@
 "use server";
 
 import {NextResponse} from "next/server";
-import {apiContainer} from "@/app/api/api-container";
+import {apiContainer} from "@/app/api-container";
 
 export async function importStripeProducts() {
     const service = apiContainer.get('stripeProductIOService');

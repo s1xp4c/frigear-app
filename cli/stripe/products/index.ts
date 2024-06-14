@@ -1,5 +1,5 @@
 import {defineCommand, createMain} from "citty";
-import {apiContainer} from "@/app/api/api-container";
+import {apiContainer} from "@/app/api-container";
 
 
 export default defineCommand({
@@ -14,6 +14,12 @@ export default defineCommand({
             async run({}) {
                 const service = apiContainer.get('stripeProductService');
                 console.table(service.all());
+            }
+        }),
+        'delete-all': defineCommand({
+            async run({}) {
+                const service = apiContainer.get('stripeProductService');
+                await service.deleteAll();
             }
         })
     },

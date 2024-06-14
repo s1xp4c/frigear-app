@@ -29,20 +29,3 @@ export type UpdateProduct = Partial<CreateProduct>;
 export interface Product extends DatabaseProduct {
 }
 
-export interface ProductRepository {
-    all(): Promise<Product[]>;
-
-    getById(id: string): Promise<Product>;
-
-    getBySlug(slug: string): Promise<Product>;
-
-    getByStripeId(stripeId: string): Promise<Product>;
-
-    create(product: CreateProduct): Promise<Product>;
-
-    updateById(id: string, attributes: UpdateProduct): Promise<Product>;
-
-    deleteById(id: string): Promise<void>;
-
-    deleteAll(): Promise<void>;
-}

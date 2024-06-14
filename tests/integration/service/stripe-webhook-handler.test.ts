@@ -1,23 +1,23 @@
 import {beforeAll, describe, expect, it} from "vitest";
 import StripeWebhookHandler, {IStripeWebhookHandler} from "@/lib/services/webhooks/stripe-webhook-handler";
-import MockProductRepository from "@/tests/mocks/mock-product-repository";
-import {ProductRepository} from "@/lib/repositories/product/product-repository";
+import MockRepository from "@/tests/mocks/mock-repository";
 import ProductService, {IProductService} from "@/lib/services/product/product-service";
 import {buildStripeEvent, buildStripeProduct} from "@/tests/mock-data";
 import type Stripe from "stripe";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import type StripePriceService from "@/lib/services/product/stripe-price-service";
+import type StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
+import {IRepository} from "@/lib/types";
 
 describe('service/webhooks/stripe-webhook-handler', () => {
-    let repository: ProductRepository;
+    let repository: IRepository;
     let service: IProductService;
     let handler: IStripeWebhookHandler;
     let stripeProduct: Stripe.Product;
 
     beforeAll(() => {
         stripeProduct = buildStripeProduct();
-        repository = new MockProductRepository();
-        service = new ProductService(repository, new MockStripePriceService() as StripePriceService)
+        repository = new MockRepository();
+        service = new ProductService(repository, new MockStripePriceService())
         handler = new StripeWebhookHandler(service);
     });
 
