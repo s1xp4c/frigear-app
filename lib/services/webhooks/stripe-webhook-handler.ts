@@ -28,7 +28,7 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
 
     async handleEvent({type, data}: StripeWebhookEvent): Promise<NextResponse> {
         //Ensures we do not allow filling from test keys.
-        if (process.env.STRIPE_PRODUCT_SYNC_LIVEMODE && !data.object.livemode) {
+        if (process.env.STRIPE_PRODUCT_SYNC_LIVEMODE && data.object.livemode === false) {
             return new NextResponse('', {
                 status: 422,
                 statusText: 'Unprocessable entity.',
@@ -59,10 +59,8 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
     }
 
 
-
     async createProduct(data: StripeWebhookEventData): Promise<any> {
         const createProduct = transformStripeProduct(data);
-        console.log(createProduct)
         await this.productService.create(createProduct);
 
         return NextResponse.json({});
@@ -70,16 +68,13 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
 
     async updateProduct(data: StripeWebhookEventData): Promise<any> {
         const {id} = data.object as Stripe.Product;
-
         const product = await this.productService.getByStripeId(id);
 
         //Doesn't exist internally.
-        if (!product) {
+        if (!product)
             return this.createProduct(data);
-        }
 
         const updates = transformStripeProduct(data);
-
         await this.productService.updateById(product.id, updates);
 
         return NextResponse.json({});
@@ -87,12 +82,10 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
 
     async deleteProduct(data: StripeWebhookEventData): Promise<any> {
         const {id} = data.object as Stripe.Product;
-
         const product = await this.productService.getByStripeId(id);
 
-        if (!product) {
+        if (!product)
             return NextResponse.json({});
-        }
 
         //Kinda soft deleting
         await this.productService.updateById(product.id, {
@@ -104,15 +97,15 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
 
     async updatePrice(data: StripeWebhookEventData) {
         const {id, unit_amount, currency, product,} = data.object as Stripe.Price;
-        if (!unit_amount) {
+        if (!unit_amount)
             return NextResponse.json({});
-        }
+
         const stripeProductId = typeof product === 'string' ? product : product.id;
         const productForUpdate = await this.productService.getByStripeId(stripeProductId);
-        if (!productForUpdate) {
-            throw new NotFoundError();
-        }
-        await this.productService.updateById(productForUpdate?.id, {
+
+        if (!productForUpdate) throw new NotFoundError();
+
+        await this.productService.updateById(productForUpdate.id, {
             price: unit_amount / 100, //in case it is the same price id.
             default_price_id: id,
             currency_code: String(currency).toUpperCase(),
