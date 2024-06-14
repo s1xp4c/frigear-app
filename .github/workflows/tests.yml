@@ -15,5 +15,5 @@ jobs:
         with:
           version: '8.15.6'
       - run: pnpm install
-      - run: cp .env.example .env.test
+      - run: cp .env.example .env
       - run: pnpm run test
