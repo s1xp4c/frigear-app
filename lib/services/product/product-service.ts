@@ -1,6 +1,5 @@
-import {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
-import StripePriceService from "@/lib/services/product/stripe-price-service";
-import {ValidationError} from "@/lib/errors";
+import type {CreateProduct, Product, ProductRepository, UpdateProduct} from "@/lib/repositories/product/product-repository";
+import type StripePriceService from "@/lib/services/product/stripe-price-service";
 
 export interface IProductService {
     all(): Promise<Product[]>;
