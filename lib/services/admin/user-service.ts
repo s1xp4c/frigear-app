@@ -1,4 +1,4 @@
-import {SupabaseClient, User} from "@supabase/supabase-js";
+import type {SupabaseClient, User} from "@supabase/supabase-js";
 
 export default class UserService {
     constructor(
