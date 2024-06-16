@@ -1,9 +1,14 @@
 import type Stripe from "stripe";
 import {StripeWebhookEvent} from "@/lib/services/webhooks/stripe-webhook-handler";
+import type {NextRequest} from "next/server";
 
 export const email = 'test@example.com';
 export const password = 'verysecure123password';
-
+export const buildNextRequest = ({body}: {body: any}): NextRequest => {
+    return {
+        json: async () => body,
+    } as any;
+}
 export const buildStripeProduct = (fields?: Stripe.ProductCreateParams | undefined): Stripe.Product => {
     return {
         id: "prod_NWjs8kKbJWmuuc",
