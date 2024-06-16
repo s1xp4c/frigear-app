@@ -10,17 +10,28 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 1. `cp .env.example .env` (This file should not be commited to VCS)
 2. Fill out the required environment variables
-3. Start supabase server `pnpm dlx supabase start`
-4. Start local development server`pnpm run dev`
-
-
-## Testing
-```bash
-pnpm run test
-```
+3. Ensure docker is running
+4. Start supabase server `pnpm dlx supabase start`
+5. Start local development server`pnpm run dev`
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Scripts
+- Reset database `pnpm run db:reset`
+- Run DB tests `pnpm run db:test`
+- Listen to stripe events: `pnpm run stripe:listen --api-key <your-api-key>`
+- Trigger stripe events: `pnpm run stripe:trigger --api-key <your-api-key> <event-name>`
+> In order to test stripe events, you'll need to use two terminal windows.
+
+## Test users (locally)
+| Role      | Email                   | Password    |
+|-----------|-------------------------|-------------|
+| Admin     | admin@app.localhost     | password123 |
+| Manager   | manager@app.localhost   | password123 |
+| volunteer | volunteer@app.localhost | password123 |
+| user      | user<1-7>@app.localhost | password123 |
+
 
 ## Learn more about NextJS
 
