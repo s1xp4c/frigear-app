@@ -3,17 +3,17 @@ import AuthenticationService from "@/lib/services/auth/authentication-service";
 import {SupabaseClient, User} from "@supabase/supabase-js";
 import {createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {email, password} from "@/tests/mock-data";
-import UserService from "@/lib/services/admin/user-service";
+import AdminUserService from "@/lib/services/admin/admin-user-service";
 
 describe('service#auth/authentication-service', () => {
     let client: SupabaseClient;
     let authenticationService: AuthenticationService;
-    let userService: UserService;
+    let userService: AdminUserService;
     let user: User | undefined;
 
     beforeAll(async () => {
         client = createSupabaseServiceRoleClient();
-        userService = new UserService(client);
+        userService = new AdminUserService(client);
         authenticationService = new AuthenticationService(client);
     });
 

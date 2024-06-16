@@ -19,10 +19,6 @@ export interface IRepository<IdType extends any = string, Entity extends any = a
 
     getById(id: IdType): Promise<Entity>;
 
-    getBySlug(slug: string): Promise<Entity>;
-
-    getBySecondaryId(secondaryId: string): Promise<Entity>;
-
     create(attributes: Create): Promise<Entity>;
 
     updateById(id: IdType, attributes: Update): Promise<Entity>;

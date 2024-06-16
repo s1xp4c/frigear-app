@@ -6,6 +6,7 @@ import type {
 import type Stripe from "stripe";
 import type {IRepository} from "@/lib/types";
 import {IPriceRepository} from "@/lib/repositories/product/stripe-price-repository";
+import {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
 
 export interface IProductService {
     all(): Promise<Product[]>;
@@ -41,29 +42,29 @@ const wrapTryCatch = async <R extends any>(callback: () => Promise<R>): Promise<
 
 export default class ProductService implements IProductService {
     constructor(
-        private repository: IRepository,
+        private productRepository: IProductRepository,
         private priceRepository: IPriceRepository,
     ) {
     }
 
     async deleteAll(): Promise<void> {
-        await this.repository.deleteAll();
+        await this.productRepository.deleteAll();
     }
 
     async all(): Promise<Product[]> {
-        return await this.repository.all();
+        return await this.productRepository.all();
     }
 
     async getById(id: string): Promise<Product | undefined> {
-        return wrapTryCatch(async () => this.repository.getById(id));
+        return wrapTryCatch(async () => this.productRepository.getById(id));
     }
 
     async getBySlug(slug: string): Promise<Product | undefined> {
-        return wrapTryCatch(async () => this.repository.getBySlug(slug))
+        return wrapTryCatch(async () => this.productRepository.getBySlug(slug))
     }
 
     async getByStripeId(id: string): Promise<Product | undefined> {
-        return wrapTryCatch(async () => this.repository.getBySecondaryId(id));
+        return wrapTryCatch(async () => this.productRepository.getBySecondaryId(id));
     }
 
     async create(attributes: CreateProduct): Promise<Product> {
@@ -74,11 +75,11 @@ export default class ProductService implements IProductService {
             }
         }
 
-        return await wrapTryCatch(async () => await this.repository.create(attributes)) as Product;
+        return await wrapTryCatch(async () => await this.productRepository.create(attributes)) as Product;
     }
 
     async updateById(id: string, attributes: UpdateProduct): Promise<Product> {
-        const product = await this.repository.getById(id);
+        const product = await this.productRepository.getById(id);
 
         if (attributes.default_price_id && product.default_price_id !== attributes.default_price_id) {
             const price = await this.priceRepository.getById(attributes.default_price_id);
@@ -87,11 +88,11 @@ export default class ProductService implements IProductService {
             }
         }
 
-        return await this.repository.updateById(id, attributes);
+        return await this.productRepository.updateById(id, attributes);
     }
 
     async deleteById(id: string): Promise<void> {
-        await this.repository.deleteById(id);
+        await this.productRepository.deleteById(id);
     }
 
 }

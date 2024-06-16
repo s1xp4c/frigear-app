@@ -2,7 +2,10 @@ import type Stripe from "stripe";
 
 import {IRepository} from "@/lib/types";
 
-export default class StripeProductService implements IRepository<string, Stripe.Product, Stripe.ProductCreateParams, Stripe.ProductUpdateParams> {
+export interface IStripeProductService extends IRepository<string, Stripe.Product, Stripe.ProductCreateParams, Stripe.ProductUpdateParams> {
+}
+
+export default class StripeProductService implements IStripeProductService {
     constructor(
         private stripe: Stripe,
     ) {
@@ -15,14 +18,6 @@ export default class StripeProductService implements IRepository<string, Stripe.
 
     async getById(id: string) {
         return await this.stripe.products.retrieve(id);
-    }
-
-    async getBySlug(slug: string): Promise<Stripe.Product> {
-        return this.getById(slug);
-    }
-
-    async getBySecondaryId(stripeId: string): Promise<Stripe.Product> {
-        return this.getById(stripeId);
     }
 
     async create(params: Stripe.ProductCreateParams) {

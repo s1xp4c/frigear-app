@@ -4,7 +4,7 @@ import {createSupabaseServerClient, createSupabaseServiceRoleClient} from "@/uti
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
-import UserService from "@/lib/services/admin/user-service";
+import AdminUserService from "@/lib/services/admin/admin-user-service";
 import Stripe from "stripe";
 import StripeProductService from "@/lib/services/product/stripe-product-service";
 import StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
@@ -22,7 +22,7 @@ export interface ServerContainer {
     productRepository: IRepository;
     adminProductService: IProductService;
     adminProductRepository: IRepository;
-    userService: UserService;
+    userService: AdminUserService;
     stripeClient: Stripe
     stripeProductService: StripeProductService;
     stripePriceService: StripePriceRepository;
@@ -49,7 +49,7 @@ serverContainer.instance('adminProductService', (container) => {
     return new ProductService(container.make('adminProductRepository'), container.make('stripePriceService'));
 });
 serverContainer.instance('userService', (container) => {
-    return new UserService(container.make('supabaseServiceClient'));
+    return new AdminUserService(container.make('supabaseServiceClient'));
 });
 serverContainer.instance('stripeClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
 serverContainer.instance('stripeProductService', (container) => {
