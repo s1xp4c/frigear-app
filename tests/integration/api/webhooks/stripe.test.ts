@@ -2,7 +2,7 @@ import {POST} from '@/app/api/webhooks/stripe/route';
 import {describe, expect, it} from "vitest";
 import {buildNextRequest, buildStripeEvent} from "@/tests/mock-data";
 
-describe('route#/api/webhooks/stripe', () => {
+describe('/api/webhooks/stripe', () => {
     it('should handle a correct event', async () => {
         const body = buildStripeEvent('product.updated', {
             name: 'NewTest',
@@ -21,6 +21,6 @@ describe('route#/api/webhooks/stripe', () => {
 
         const request = buildNextRequest({body});
 
-        expect(() => POST(request)).to.rejects.toThrow('Unhandled event: some.unhandled.event')
+        expect(POST(request)).to.rejects.toThrow('Unhandled event: some.unhandled.event')
     });
 })

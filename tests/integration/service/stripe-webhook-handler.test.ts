@@ -7,7 +7,7 @@ import type Stripe from "stripe";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
 import {IRepository} from "@/lib/types";
 
-describe('service/webhooks/stripe-webhook-handler', () => {
+describe('service#webhooks/stripe-webhook-handler', () => {
     let repository: IRepository;
     let service: IProductService;
     let handler: IStripeWebhookHandler;

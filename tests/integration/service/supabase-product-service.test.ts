@@ -5,10 +5,9 @@ import ProductService from "@/lib/services/product/product-service";
 import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
 import {copycat} from "@snaplet/copycat";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import type StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
 import {IRepository} from "@/lib/types";
 
-describe('services/product/product-service', () => {
+describe('service#product/product-service', () => {
     let client: SupabaseClient;
     let repository: IRepository;
     let productService: ProductService;

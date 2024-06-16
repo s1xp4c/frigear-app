@@ -5,7 +5,7 @@ import {createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {email, password} from "@/tests/mock-data";
 import UserService from "@/lib/services/admin/user-service";
 
-describe('service/auth/authentication-service', () => {
+describe('service#auth/authentication-service', () => {
     let client: SupabaseClient;
     let authenticationService: AuthenticationService;
     let userService: UserService;
