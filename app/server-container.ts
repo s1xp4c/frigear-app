@@ -37,34 +37,34 @@ serverContainer.instance('supabaseClient', () => createSupabaseServerClient());
 serverContainer.instance('productRepository', (container) => {
     //It is important that we pass the correct client on the server
     // supabaseClient is the anon OR authenticated user's token being used
-    return new SupabaseProductRepository(container.get('supabaseClient'));
+    return new SupabaseProductRepository(container.make('supabaseClient'));
 });
 serverContainer.instance('productService', (container) => {
-    return new ProductService(container.get('productRepository'), container.get('stripePriceService'));
+    return new ProductService(container.make('productRepository'), container.make('stripePriceService'));
 });
 serverContainer.instance('adminProductRepository', (container) => {
-    return new SupabaseProductRepository(container.get('supabaseServiceClient'));
+    return new SupabaseProductRepository(container.make('supabaseServiceClient'));
 })
 serverContainer.instance('adminProductService', (container) => {
-    return new ProductService(container.get('adminProductRepository'), container.get('stripePriceService'));
+    return new ProductService(container.make('adminProductRepository'), container.make('stripePriceService'));
 });
 serverContainer.instance('userService', (container) => {
-    return new UserService(container.get('supabaseServiceClient'));
+    return new UserService(container.make('supabaseServiceClient'));
 });
 serverContainer.instance('stripeClient', () => new Stripe(process.env.STRIPE_SECRET_KEY!));
 serverContainer.instance('stripeProductService', (container) => {
-    return new StripeProductService(container.get('stripeClient'));
+    return new StripeProductService(container.make('stripeClient'));
 });
 serverContainer.instance('stripePriceService', (container) => {
-    return new StripePriceRepository(container.get('stripeClient'));
+    return new StripePriceRepository(container.make('stripeClient'));
 })
 serverContainer.instance('stripeWebhookHandler', (container) => {
-    return new StripeWebhookHandler(container.get('adminProductService'));
+    return new StripeWebhookHandler(container.make('adminProductService'));
 });
 
 serverContainer.instance('stripeProductIOService', (container) => {
     return new StripeProductIOService(
-        container.get('adminProductService'),
-        container.get('stripeProductService'),
+        container.make('adminProductService'),
+        container.make('stripeProductService'),
     );
 });

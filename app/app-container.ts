@@ -14,8 +14,8 @@ export interface AppContainer {
 export const appContainer = new DependencyContainer<AppContainer>();
 appContainer.instance('supabaseClient', () => createSupabaseBrowserClient());
 appContainer.instance('authenticationService', (container) => {
-    return new AuthenticationService(container.get('supabaseClient'));
+    return new AuthenticationService(container.make('supabaseClient'));
 });
 appContainer.instance('productRepository', (container) => {
-    return new SupabaseProductRepository(container.get('supabaseClient'));
+    return new SupabaseProductRepository(container.make('supabaseClient'));
 });

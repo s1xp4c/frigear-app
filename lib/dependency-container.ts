@@ -11,7 +11,7 @@ export class DependencyContainer<Dependencies extends Record<string, any>> {
         this.dependencies[name] = factory;
     }
 
-    get<Name extends keyof Dependencies>(name: Name): Dependencies[Name] {
+    make<Name extends keyof Dependencies>(name: Name): Dependencies[Name] {
         this.initializeInstanceIfNotInitialized(name);
         if (!this.instances[name]) {
             throw new Error(`${name as string} is not registered.`);

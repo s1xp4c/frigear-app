@@ -3,7 +3,7 @@
 import {serverContainer} from "@/app/server-container";
 
 export default async function AdminProductsPage() {
-    const productService = serverContainer.get('productService');
+    const productService = serverContainer.make('productService');
     const products = await productService.all();
 
     return (
