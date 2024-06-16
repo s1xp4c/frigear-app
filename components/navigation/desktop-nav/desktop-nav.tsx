@@ -15,7 +15,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 import NavProducts from "@/constants/navigation-products";
 import LogoFull from "@/components/logos/logo-full/logo-full";
-import Button from "@/components/ui/button/button";
+import { Button } from "@/components/ui/button";
 import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
 
 export function DesktopNav() {
@@ -116,13 +116,13 @@ ListItem.displayName = "ListItem";
 const NavBar = () => {
   return (
     <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
-      <div className="flex gap-4">
+      <div className="flex gap-4 w-28">
         <LogoFull />
         <DesktopNav />
       </div>
       <div className="flex gap-4">
         <ThemeToggle />
-        <Button variant="slim">
+        <Button variant="default">
           <Link href="/auth/signin">LOGIN</Link>
         </Button>
       </div>
