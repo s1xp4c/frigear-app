@@ -1,5 +1,3 @@
-// components/ui/mode-toggle.tsx
-
 "use client";
 
 import * as React from "react";
@@ -21,7 +19,7 @@ export function ThemeToggle() {
     <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon">
+          <Button variant="default" size="icon">
             <FaSun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <FaMoon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <FaAdjust className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all system:rotate-0 system:scale-100" />

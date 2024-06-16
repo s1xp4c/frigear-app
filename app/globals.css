@@ -57,3 +57,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.6rem;
+  padding-inline: 2.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100vw;
+  z-index: 100;
+  align-items: center;
+  position: absolute;
+  margin: 0 auto;
+}

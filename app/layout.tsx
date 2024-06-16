@@ -4,7 +4,10 @@ import "./globals.css";
 import { getURL } from "@/utils/helpers";
 import { PropsWithChildren } from "react";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { DesktopNav } from "@/components/navigation/desktopNav/DesktopNav";
+import NavBar, {
+  DesktopNav,
+} from "@/components/navigation/desktop-nav/desktop-nav";
+import MobileNav from "@/components/navigation/mobile-nav/mobile-nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -90,18 +93,25 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <DesktopNav />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {/* Desktop Navigation */}
+          <div className="hidden sm:block">
+            <NavBar />
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="block sm:hidden">
+            <MobileNav />
+          </div>
           <main
             id="skip"
             className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
           >
-            {children}
+            <div className="max-w-6xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-6">
+              <div className="sm:flex sm:flex-col sm:align-center">
+                {children}
+              </div>
+            </div>
           </main>
         </ThemeProvider>
       </body>
