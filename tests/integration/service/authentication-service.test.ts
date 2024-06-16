@@ -18,7 +18,7 @@ describe('service#auth/authentication-service', () => {
     });
 
     it('should allow signup', async () => {
-        user = await authenticationService.signUp(email, password);
+        user = await authenticationService.signUpWithEmailAndPassword(email, password);
         expect(user).toBeDefined();
         expect(user.email).toBe(email);
     });
