@@ -1,0 +1,23 @@
+name: 'tests'
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase start
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '8.15.6'
+      - run: pnpm install
+      - run: cp .env.example .env
+      - run: pnpm run test
+#        TODO: Add coverage to PR
+#      - name: 'Report Coverage'
+#        if: always()
+#        uses: davelosert/vitest-coverage-report-action@v2

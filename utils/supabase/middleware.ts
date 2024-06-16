@@ -1,5 +1,6 @@
 import {createServerClient, type CookieOptions} from "@supabase/ssr";
 import {type NextRequest, NextResponse} from "next/server";
+import {ValidationError} from "@/lib/errors";
 
 export const updateSession = async (request: NextRequest) => {
     // Create an unmodified response
@@ -63,3 +64,18 @@ export const updateSession = async (request: NextRequest) => {
 
     return response;
 };
+
+
+export async function translateSupabaseError(
+    error: any,
+    messages: {
+        duplicate_key?: string;
+    } = {}
+) {
+    //duplicate key value violates unique constraint "product_slug_key"
+    if (error && error.code && error.code === '23505') {
+        throw new ValidationError(error.details || messages.duplicate_key || error.message);
+    }
+
+    if (error) throw error;
+}
