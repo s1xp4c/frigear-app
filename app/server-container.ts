@@ -3,7 +3,7 @@ import ProductService, {IProductService} from "@/lib/services/product/product-se
 import {createSupabaseServerClient, createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
-import SupabaseProductRepository from "@/lib/repositories/product/supabase-product-repository";
+import SupabaseProductRepository, {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
 import AdminUserService from "@/lib/services/admin/admin-user-service";
 import Stripe from "stripe";
 import StripeProductService from "@/lib/services/product/stripe-product-service";
@@ -19,9 +19,9 @@ export interface ServerContainer {
     // supabaseClient is the anon OR authenticated user's token being used
     supabaseClient: SupabaseClient;
     productService: IProductService;
-    productRepository: IRepository;
+    productRepository: IProductRepository;
     adminProductService: IProductService;
-    adminProductRepository: IRepository;
+    adminProductRepository: IProductRepository;
     userService: AdminUserService;
     stripeClient: Stripe
     stripeProductService: StripeProductService;

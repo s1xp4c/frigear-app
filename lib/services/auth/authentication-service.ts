@@ -8,7 +8,24 @@ export default class AuthenticationService {
     ) {
     }
 
-    async signUp(email: string, password: string, emailRedirectTo?: string) {
+    async signInWithMagicEmailLink(email: string, emailRedirectTo?: string) {
+        const {data, error} = await this.client.auth.signInWithOtp({
+            email,
+            options: {
+                emailRedirectTo,
+                shouldCreateUser: true,
+            },
+        });
+
+        if(error){
+            throw error;
+        }
+
+        return data;
+    }
+
+
+    async signUpWithEmailAndPassword(email: string, password: string, emailRedirectTo?: string) {
         const response = await this.client.auth.signUp({
             email,
             password,
