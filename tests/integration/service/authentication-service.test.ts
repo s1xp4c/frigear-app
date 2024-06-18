@@ -17,16 +17,19 @@ describe('service#auth/authentication-service', () => {
         authenticationService = new AuthenticationService(client);
     });
 
-    it('should allow signup', async () => {
+    it('should sign up a user with email and password', async () => {
         user = await authenticationService.signUpWithEmailAndPassword(email, password);
         expect(user).toBeDefined();
         expect(user.email).toBe(email);
     });
 
-    it('should allow login', async () => {
+    it('should sign in with email and password', async () => {
         user = await authenticationService.loginWithEmailAndPassword(email, password);
         expect(user).toBeDefined();
         expect(user.email).toBe(email);
         await userService.deleteById(user.id);
     });
+    // it('should sign in with magic email link',async () => {
+    //     user = await authenticationService.signInWithMagicEmailLink(email);
+    // });
 });
