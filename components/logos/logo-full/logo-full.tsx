@@ -8,6 +8,7 @@ export default function LogoFull() {
       width={150}
       height={150}
       alt="Frigear Tekst-logo svg"
+      className="logo-full"
     />
   );
 }

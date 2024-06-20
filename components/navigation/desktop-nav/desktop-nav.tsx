@@ -122,7 +122,7 @@ const NavBar = () => {
       </div>
       <div className="flex gap-4">
         <ThemeToggle />
-        <Button variant="default">
+        <Button variant="default" size="lg">
           <Link href="/auth/signin">LOGIN</Link>
         </Button>
       </div>
