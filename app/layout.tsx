@@ -8,6 +8,7 @@ import NavBar, {
   DesktopNav,
 } from "@/components/navigation/desktop-nav/desktop-nav";
 import MobileNav from "@/components/navigation/mobile-nav/mobile-nav";
+import Footer from "@/components/footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -112,6 +113,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 {children}
               </div>
             </div>
+            <Footer />
           </main>
         </ThemeProvider>
       </body>

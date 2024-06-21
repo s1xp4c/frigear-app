@@ -1,9 +1,9 @@
-import SignIn from "@/components/pages/signin";
+import SignUp from "@/components/pages/sign-up";
 
 type Params = {
     params: {}
 };
 
 export default function Page({ params }: Params) {
-    return <SignIn/>;
+    return <SignUp/>;
 }

@@ -5,10 +5,10 @@ import ProductService, {IProductService} from "@/lib/services/product/product-se
 import {buildStripeEvent, buildStripeProduct} from "@/tests/mock-data";
 import type Stripe from "stripe";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import {IRepository} from "@/lib/types";
+import {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
 
 describe('service#webhooks/stripe-webhook-handler', () => {
-    let repository: IRepository;
+    let repository: IProductRepository;
     let service: IProductService;
     let handler: IStripeWebhookHandler;
     let stripeProduct: Stripe.Product;
