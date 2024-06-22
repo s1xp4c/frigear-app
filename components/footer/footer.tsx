@@ -14,42 +14,34 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-[1680px] px-10 bg-background text-foreground ">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-2 border-b border-foreground/muted">
+    <footer className="mx-auto  max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-2 border-b border-foreground/50">
         <div className="flex items-center">
           <Link href="/">
             <div className="flex items-center font-bold cursor-pointer">
-              <Logo className="mr-3 border rounded-full border-foreground/muted" />
-              <span className="text-secondary hover:text-foreground transition duration-150 ease-in-out">
-                FRIGEAR
+              <Logo className="mr-4 border-2 rounded-full border-foreground/50" />
+              <span className="text-primary hover:text-foreground/50 transition duration-150 ease-in-out">
+                Frigear
               </span>
             </div>
           </Link>
         </div>
-        <div className="flex justify-end">
+        <div className="flex my-auto justify-end">
           <FooterLinkGroup links={footerLinks} />
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-between py-6 space-y-3">
+      <div className="flex flex-col md:flex-row items-center justify-between py-4 space-y-1">
         <div>&copy; {new Date().getFullYear()} Frigear ★ CVR-nr: 44353261</div>
         <div className="flex items-center space-x-4">
+          <span>Open Source App by Frigear Volunteers</span>
           <Link
             aria-label="Github Repository"
             aria-title="Github Repository"
-            href="https://github.com/s1xp4c/frigear-sub-payments"
+            href="https://github.com/s1xp4c/frigear-app"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
           >
             <GitHub />
-          </Link>
-          <span>App udviklet af Frigear frivillige</span>
-          <Link
-            href="https://block-folio.netlify.app/"
-            aria-label="Portfolio link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Logo_six />
           </Link>
         </div>
       </div>

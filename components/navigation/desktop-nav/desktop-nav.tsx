@@ -115,7 +115,7 @@ ListItem.displayName = "ListItem";
 
 const NavBar = () => {
   return (
-    <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
+    <div className=" w-full max-w-7xl mx-auto my-auto grid grid-flow-col justify-between py-4">
       <div className="flex gap-4 w-28">
         <LogoFull />
         <DesktopNav />

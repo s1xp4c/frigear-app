@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 
 const HeroSection = () => {
   return (
-    <section className="lg:py-16">
+    <div className=" w-full h-full">
       <div className="grid grid-cols-1 sm:grid-cols-12">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -60,14 +60,14 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="col-span-4 place-self-center mt-4 lg:mt-0"
+          className="col-span-4 place-self-center lg:mt-0"
         >
-          <div className="rounded-full bg-gradient-to-br from-primary via-cyan-500 to-transparent  w-[220px] h-[220px] lg:w-[320px] lg:h-[320px] relative">
+          <div className="rounded-full bg-gradient-to-br from-primary via-cyan-500 to-transparent  w-[280px] h-[280px] relative">
             <Logo_rf_bgr className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-full" />
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 
