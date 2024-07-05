@@ -1,16 +1,13 @@
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 import { ValidationError } from '@/lib/errors';
+import { Middleware } from '@/lib/middleware/types';
 
-export const updateSession = async (request: NextRequest) => {
-  // Create an unmodified response
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
-
-  const supabase = createServerClient(
+export function createSupabaseMiddlewareClient(
+  request: NextRequest,
+  response: NextResponse,
+) {
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -57,7 +54,31 @@ export const updateSession = async (request: NextRequest) => {
       },
     },
   );
+}
 
+export async function useSupabaseMiddlewareUser(
+  request: NextRequest,
+  response: NextResponse,
+) {
+  const client = createSupabaseMiddlewareClient(request, response);
+
+  const { data } = await client.auth.getUser();
+
+  return data.user || undefined;
+}
+
+export const UserSessionMiddleware: Middleware = async (
+  request: NextRequest,
+  response: NextResponse,
+): Promise<NextResponse> => {
+  // Create an unmodified response
+  response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  const supabase = createSupabaseMiddlewareClient(request, response);
   // https://supabase.com/docs/guides/auth/server-side/nextjs
   // This is required for server components.
   await supabase.auth.getUser();
