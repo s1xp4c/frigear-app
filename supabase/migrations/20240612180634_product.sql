@@ -46,6 +46,3 @@ create policy "Product can only be updated by manager"
 
 create policy "Product can only be viewed publicly if it is active"
     on public.product as permissive for select using (active = true);
-
-create policy "Product can only be viewed by users if they are active"
-    on public.product as permissive for select using (active = true AND public.current_user_has_role('user'));

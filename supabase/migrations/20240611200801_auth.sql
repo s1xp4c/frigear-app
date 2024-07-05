@@ -90,6 +90,7 @@ $$
 declare
     with_role text = 'user';
 begin
+--     TODO: use new.raw_user_meta_data to also fill profile.
     insert into public.profile (id, nickname, role)
     values (new.id, new.email, with_role);
     return new;
