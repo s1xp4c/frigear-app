@@ -1,6 +1,6 @@
-import type Stripe from "stripe";
+import type Stripe from 'stripe';
 
-import { IRepository } from "@/lib/types";
+import { IRepository } from '@/lib/types';
 
 export interface IStripeProductService
   extends IRepository<

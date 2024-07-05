@@ -1,5 +1,5 @@
 type JsonBField = Record<string, any>;
-export type RequiredProductFields = "slug" | "name";
+export type RequiredProductFields = 'slug' | 'name';
 
 export interface DatabaseProduct {
   id: string;
@@ -26,7 +26,7 @@ export interface DatabaseProduct {
 export type CreateProduct = Omit<
   Pick<DatabaseProduct, RequiredProductFields> &
     Partial<Omit<DatabaseProduct, RequiredProductFields>>,
-  "id"
+  'id'
 >;
 export type UpdateProduct = Partial<CreateProduct>;
 

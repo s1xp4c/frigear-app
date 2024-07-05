@@ -2,10 +2,10 @@ import {
   CreateProduct,
   Product,
   UpdateProduct,
-} from "@/lib/repositories/product";
-import { NotFoundError } from "@/lib/errors";
-import { copycat } from "@snaplet/copycat";
-import { IRepository } from "@/lib/types";
+} from '@/lib/repositories/product';
+import { NotFoundError } from '@/lib/errors';
+import { copycat } from '@snaplet/copycat';
+import { IRepository } from '@/lib/types';
 
 export default class MockRepository<
   Key extends any = string,
@@ -21,9 +21,9 @@ export default class MockRepository<
       slug: string;
       secondary_id: string;
     } = {
-      id: "id",
-      slug: "slug",
-      secondary_id: "stripe_id",
+      id: 'id',
+      slug: 'slug',
+      secondary_id: 'stripe_id',
     },
   ) {}
 

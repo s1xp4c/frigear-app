@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { FaMoon, FaSun, FaAdjust } from "react-icons/fa";
-import { useTheme } from "next-themes";
+import * as React from 'react';
+import { FaAdjust, FaMoon, FaSun } from 'react-icons/fa';
+import { useTheme } from 'next-themes';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 export function ThemeToggle() {
   const { setTheme } = useTheme();
@@ -27,19 +27,19 @@ export function ThemeToggle() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme("light")}>
+          <DropdownMenuItem onClick={() => setTheme('light')}>
             <div className="toggle-mode">
               <div className="">Light</div>
               <FaSun className="h-[1.1rem] w-[1.1rem]" />
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
+          <DropdownMenuItem onClick={() => setTheme('dark')}>
             <div className="toggle-mode">
               <span>Dark</span>
               <FaMoon className=" h-[1rem] w-[1rem] " />
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
+          <DropdownMenuItem onClick={() => setTheme('system')}>
             <div className="toggle-mode">
               <span>System</span>
               <FaAdjust className=" h-[1rem] w-[1rem] " />

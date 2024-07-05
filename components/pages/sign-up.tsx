@@ -1,12 +1,12 @@
-"use client";
-import { signUp } from "@/components/pages/actions";
-import { Label } from "@/components/ui/label";
-import { TextInput } from "@/components/ui/input/text-input";
-import { useState } from "react";
-import { AppConfig } from "@/app/config";
+'use client';
+import { signUp } from '@/components/pages/actions';
+import { Label } from '@/components/ui/label';
+import { TextInput } from '@/components/ui/input/text-input';
+import { useState } from 'react';
+import { AppConfig } from '@/app/config';
 
 const SignUp: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

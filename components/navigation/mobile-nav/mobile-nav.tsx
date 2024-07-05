@@ -1,6 +1,6 @@
-"use client";
-import { FaUserNinja } from "react-icons/fa";
-import { IoSettings } from "react-icons/io5";
+'use client';
+import { FaUserNinja } from 'react-icons/fa';
+import { IoSettings } from 'react-icons/io5';
 
 import {
   Sheet,
@@ -9,13 +9,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import LogoFull from "@/components/logos/logo-full/logo-full";
-import { SettingsNav } from "@/components/navigation/settings-nav/SettingsNav";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import LogoFull from '@/components/logos/logo-full/logo-full';
+import { SettingsNav } from '@/components/navigation/settings-nav/SettingsNav';
 
 const MobileNav = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const MobileNav = () => {
             </SheetContent>
           </Sheet>
           <div className="text-center col-span-3 mx-auto my-auto ">
-            <Link href={"/"} className="">
+            <Link href={'/'} className="">
               <LogoFull />
             </Link>
           </div>

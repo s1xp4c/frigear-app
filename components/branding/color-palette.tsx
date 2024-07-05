@@ -1,35 +1,35 @@
-"use client";
-import React, { useState } from "react";
-import ColorSwatch from "./color-swatch";
-import { Button } from "../ui/button";
+'use client';
+import React, { useState } from 'react';
+import ColorSwatch from './color-swatch';
+import { Button } from '../ui/button';
 
 const colorVariables = [
-  "background",
-  "foreground",
-  "card",
-  "card-foreground",
-  "popover",
-  "popover-foreground",
-  "primary",
-  "primary-foreground",
-  "secondary",
-  "secondary-foreground",
-  "muted",
-  "muted-foreground",
-  "accent",
-  "accent-foreground",
-  "destructive",
-  "destructive-foreground",
-  "border",
-  "input",
-  "ring",
+  'background',
+  'foreground',
+  'card',
+  'card-foreground',
+  'popover',
+  'popover-foreground',
+  'primary',
+  'primary-foreground',
+  'secondary',
+  'secondary-foreground',
+  'muted',
+  'muted-foreground',
+  'accent',
+  'accent-foreground',
+  'destructive',
+  'destructive-foreground',
+  'border',
+  'input',
+  'ring',
 ];
 
 const ColorPalette: React.FC = () => {
-  const [localTheme, setLocalTheme] = useState("");
+  const [localTheme, setLocalTheme] = useState('');
 
-  const handleSetLightTheme = () => setLocalTheme("light");
-  const handleSetDarkTheme = () => setLocalTheme("dark");
+  const handleSetLightTheme = () => setLocalTheme('light');
+  const handleSetDarkTheme = () => setLocalTheme('dark');
 
   return (
     <>

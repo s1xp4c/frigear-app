@@ -1,5 +1,5 @@
-import Image from "next/image";
-import FrigearLogo from "public/logos/frigear-logo-2000x800.svg";
+import Image from 'next/image';
+import FrigearLogo from 'public/logos/frigear-logo-2000x800.svg';
 
 export default function LogoFull() {
   return (
