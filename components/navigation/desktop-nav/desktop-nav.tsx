@@ -141,7 +141,10 @@ const NavBar = () => {
         <Button variant="default" size="lg">
           {!user && <Link href="/auth/signin">LOGIN</Link>}
           {user && (
-            <Link href="#" onClick={() => client.auth.signOut()}>
+            <Link href="#" onClick={async () => {
+               await client.auth.signOut();
+               location.replace('/')
+            }}>
               LOGOUT
             </Link>
           )}
