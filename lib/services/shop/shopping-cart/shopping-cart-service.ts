@@ -1,4 +1,4 @@
-import { IRepository } from "@/lib/types";
+import { IRepository } from '@/lib/types';
 
 export interface ShoppingCartItem<Product extends any> {
   id: string;

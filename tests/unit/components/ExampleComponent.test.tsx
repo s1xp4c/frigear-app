@@ -1,8 +1,8 @@
-import { test } from "vitest";
+import { test } from 'vitest';
 // import { render, screen, within } from "@testing-library/react";
 // import Home from "../pages/home";
 
-test("components/ExampleComponent", () => {
+test('components/ExampleComponent', () => {
   // render(<Home />);
   // const main = within(screen.getByRole("main"));
   // expect(

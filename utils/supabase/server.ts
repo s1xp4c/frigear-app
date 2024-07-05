@@ -1,5 +1,5 @@
-import { CookieOptions, createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { CookieOptions, createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
 export const createSupabaseServiceRoleClient = () => {
   return createServerClient(
@@ -26,7 +26,7 @@ export const createServerSupabaseClient = () => {
           cookieStore.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          cookieStore.set({ name, value: "", ...options });
+          cookieStore.set({ name, value: '', ...options });
         },
       },
     },

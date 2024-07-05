@@ -1,13 +1,13 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from '@supabase/supabase-js';
 import {
   CreateProduct,
   Product,
   UpdateProduct,
-} from "@/lib/repositories/product/index";
-import { translateSupabaseError } from "@/utils/supabase/middleware";
-import { NotFoundError } from "@/lib/errors";
-import type { IRepository } from "@/lib/types";
-import SupabaseRepository from "@/lib/repositories/supabase-repository";
+} from '@/lib/repositories/product/index';
+import { translateSupabaseError } from '@/utils/supabase/middleware';
+import { NotFoundError } from '@/lib/errors';
+import type { IRepository } from '@/lib/types';
+import SupabaseRepository from '@/lib/repositories/supabase-repository';
 
 export interface IProductRepository
   extends IRepository<string, Product, CreateProduct, UpdateProduct> {
@@ -21,14 +21,14 @@ export default class SupabaseProductRepository
   implements IProductRepository
 {
   constructor(protected client: SupabaseClient) {
-    super("product", "id", "*", client);
+    super('product', 'id', '*', client);
   }
 
   async getBySlug(slug: string): Promise<Product> {
     const { data, error } = await this.client
-      .from("product")
+      .from('product')
       .select<typeof this.select, Product>(this.select)
-      .eq("slug", slug)
+      .eq('slug', slug)
       .maybeSingle();
 
     await translateSupabaseError(error);
@@ -39,9 +39,9 @@ export default class SupabaseProductRepository
 
   async getBySecondaryId(stripeId: string): Promise<Product> {
     const { data, error } = await this.client
-      .from("product")
+      .from('product')
       .select<typeof this.select, Product>(this.select)
-      .eq("stripe_id", stripeId)
+      .eq('stripe_id', stripeId)
       .maybeSingle();
 
     await translateSupabaseError(error);

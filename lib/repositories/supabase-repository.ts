@@ -1,7 +1,7 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { translateSupabaseError } from "@/utils/supabase/middleware";
-import { NotFoundError } from "@/lib/errors";
-import type { IRepository } from "@/lib/types";
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { translateSupabaseError } from '@/utils/supabase/middleware';
+import { NotFoundError } from '@/lib/errors';
+import type { IRepository } from '@/lib/types';
 
 export default class SupabaseRepository<
   Entity extends any,
@@ -77,8 +77,8 @@ export default class SupabaseRepository<
   async deleteAll(): Promise<void> {
     const { error } = await this.client
       .from(this.tableName)
-      .delete({ count: "exact" })
-      .neq(this.idColumn, "290695e8-1486-4291-97a7-c9e3da9a76c3");
+      .delete({ count: 'exact' })
+      .neq(this.idColumn, '290695e8-1486-4291-97a7-c9e3da9a76c3');
 
     await translateSupabaseError(error);
   }

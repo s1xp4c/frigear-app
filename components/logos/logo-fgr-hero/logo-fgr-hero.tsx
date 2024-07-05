@@ -1,6 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-const FrigearRfLogo = ({ className = "", ...props }) => (
+const FrigearRfLogo = ({ className = '', ...props }) => (
   <Image
     src="/logos/logo_with_rf_bgr.jpg"
     alt="hero image"

@@ -1,5 +1,5 @@
-"use server";
-import SignUp from "@/components/pages/sign-up";
+'use server';
+import SignUp from '@/components/pages/sign-up';
 
 type Params = {
   params: {};

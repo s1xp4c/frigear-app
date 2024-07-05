@@ -1,12 +1,12 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-const Logo = ({ className = "", ...props }) => (
+const Logo = ({ className = '', ...props }) => (
   <Image
     src={`/fgr_logo_purple-dark.png`}
     width={33}
     height={33}
     alt="6"
-    key={"contactImage"}
+    key={'contactImage'}
     className={className}
     {...props}
   />

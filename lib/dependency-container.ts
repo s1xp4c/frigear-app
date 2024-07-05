@@ -4,18 +4,22 @@ export type ServiceFactory<
 > = (container: DependencyContainer<Dependencies>) => Dependencies[K];
 
 export class DependencyContainer<Dependencies extends Record<string, any>> {
-  protected dependencies: Partial<
-    Record<keyof Dependencies, ServiceFactory<Dependencies, keyof Dependencies>>
-  > = {};
   protected instances: Partial<Dependencies> = {};
 
-  constructor() {}
+  constructor(
+    protected factories: Partial<
+      Record<
+        keyof Dependencies,
+        ServiceFactory<Dependencies, keyof Dependencies>
+      >
+    > = {},
+  ) {}
 
   instance<Name extends keyof Dependencies>(
     name: Name,
     factory: ServiceFactory<Dependencies, Name>,
   ) {
-    this.dependencies[name] = factory;
+    this.factories[name] = factory;
   }
 
   make<Name extends keyof Dependencies>(name: Name): Dependencies[Name] {
@@ -30,8 +34,8 @@ export class DependencyContainer<Dependencies extends Record<string, any>> {
   private initializeInstanceIfNotInitialized<Name extends keyof Dependencies>(
     name: Name,
   ): boolean {
-    if (!this.instances[name] && this.dependencies[name]) {
-      const serviceFactory = this.dependencies[name] as ServiceFactory<
+    if (!this.instances[name] && this.factories[name]) {
+      const serviceFactory = this.factories[name] as ServiceFactory<
         Dependencies,
         Name
       >;
@@ -41,7 +45,7 @@ export class DependencyContainer<Dependencies extends Record<string, any>> {
     return false;
   }
 
-  wasInitialized<Name extends keyof Dependencies>(name: Name): boolean {
+  isInitialized<Name extends keyof Dependencies>(name: Name): boolean {
     return this.instances[name] !== undefined;
   }
 }

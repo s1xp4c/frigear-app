@@ -1,10 +1,10 @@
-"use client";
-import React from "react";
-import { TypeAnimation } from "react-type-animation";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Logo_rf_bgr from "@/components/logos/logo-fgr-hero/logo-fgr-hero";
-import { Button } from "../ui/button";
+'use client';
+import React from 'react';
+import { TypeAnimation } from 'react-type-animation';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Logo_rf_bgr from '@/components/logos/logo-fgr-hero/logo-fgr-hero';
+import { Button } from '../ui/button';
 
 const HeroSection = () => {
   return (
@@ -23,19 +23,19 @@ const HeroSection = () => {
             <br></br>
             <TypeAnimation
               sequence={[
-                "Non-profit",
+                'Non-profit',
                 2000,
-                "Frivillig drevet",
+                'Frivillig drevet',
                 2000,
-                "Forening og fond",
+                'Forening og fond',
                 2000,
-                "Projektorienteret",
+                'Projektorienteret',
                 2000,
-                "Skal du være med?",
+                'Skal du være med?',
                 2000,
-                "Bliv medlem!",
+                'Bliv medlem!',
                 2000,
-                "Bliv frivillig!",
+                'Bliv frivillig!',
                 2000,
               ]}
               wrapper="span"

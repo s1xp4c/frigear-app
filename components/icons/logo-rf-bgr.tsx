@@ -1,6 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-const Logo = ({ className = "", ...props }) => (
+const Logo = ({ className = '', ...props }) => (
   <Image
     src="/logo_with_rf_bgr.jpg"
     alt="hero image"

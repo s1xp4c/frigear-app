@@ -2,10 +2,10 @@ import type {
   CreateProduct,
   Product,
   UpdateProduct,
-} from "@/lib/repositories/product";
-import type Stripe from "stripe";
-import { IPriceRepository } from "@/lib/repositories/product/stripe-price-repository";
-import { IProductRepository } from "@/lib/repositories/product/supabase-product-repository";
+} from '@/lib/repositories/product';
+import type Stripe from 'stripe';
+import { IPriceRepository } from '@/lib/repositories/product/stripe-price-repository';
+import { IProductRepository } from '@/lib/repositories/product/supabase-product-repository';
 
 export interface IProductService {
   all(): Promise<Product[]>;
@@ -33,7 +33,7 @@ const wrapTryCatch = async <R extends any>(
   try {
     return await callback();
   } catch (err: any) {
-    if (err.name === "NotFoundError") {
+    if (err.name === 'NotFoundError') {
       return undefined;
     }
 

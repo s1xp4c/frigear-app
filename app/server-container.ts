@@ -1,23 +1,23 @@
 import StripeWebhookHandler, {
   type IStripeWebhookHandler,
-} from "@/lib/services/webhooks/stripe-webhook-handler";
+} from '@/lib/services/webhooks/stripe-webhook-handler';
 import ProductService, {
   IProductService,
-} from "@/lib/services/product/product-service";
+} from '@/lib/services/product/product-service';
 import {
   createServerSupabaseClient,
   createSupabaseServiceRoleClient,
-} from "@/utils/supabase/server";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { DependencyContainer } from "@/lib/dependency-container";
+} from '@/utils/supabase/server';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { DependencyContainer } from '@/lib/dependency-container';
 import SupabaseProductRepository, {
   IProductRepository,
-} from "@/lib/repositories/product/supabase-product-repository";
-import AdminUserService from "@/lib/services/admin/admin-user-service";
-import Stripe from "stripe";
-import StripeProductService from "@/lib/services/product/stripe-product-service";
-import StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
-import StripeProductIOService from "@/lib/services/product/stripe-product-io-service";
+} from '@/lib/repositories/product/supabase-product-repository';
+import AdminUserService from '@/lib/services/admin/admin-user-service';
+import Stripe from 'stripe';
+import StripeProductService from '@/lib/services/product/stripe-product-service';
+import StripePriceRepository from '@/lib/repositories/product/stripe-price-repository';
+import StripeProductIOService from '@/lib/services/product/stripe-product-io-service';
 
 export interface ServerContainer {
   //It is important that we pass the correct client on the server
@@ -39,50 +39,50 @@ export interface ServerContainer {
 
 export const serverContainer = new DependencyContainer<ServerContainer>();
 
-serverContainer.instance("supabaseServiceClient", () =>
+serverContainer.instance('supabaseServiceClient', () =>
   createSupabaseServiceRoleClient(),
 );
-serverContainer.instance("supabaseClient", () => createServerSupabaseClient());
-serverContainer.instance("productRepository", (container) => {
+serverContainer.instance('supabaseClient', () => createServerSupabaseClient());
+serverContainer.instance('productRepository', (container) => {
   //It is important that we pass the correct client on the server
   // supabaseClient is the anon OR authenticated user's token being used
-  return new SupabaseProductRepository(container.make("supabaseClient"));
+  return new SupabaseProductRepository(container.make('supabaseClient'));
 });
-serverContainer.instance("productService", (container) => {
+serverContainer.instance('productService', (container) => {
   return new ProductService(
-    container.make("productRepository"),
-    container.make("stripePriceService"),
+    container.make('productRepository'),
+    container.make('stripePriceService'),
   );
 });
-serverContainer.instance("adminProductRepository", (container) => {
-  return new SupabaseProductRepository(container.make("supabaseServiceClient"));
+serverContainer.instance('adminProductRepository', (container) => {
+  return new SupabaseProductRepository(container.make('supabaseServiceClient'));
 });
-serverContainer.instance("adminProductService", (container) => {
+serverContainer.instance('adminProductService', (container) => {
   return new ProductService(
-    container.make("adminProductRepository"),
-    container.make("stripePriceService"),
+    container.make('adminProductRepository'),
+    container.make('stripePriceService'),
   );
 });
-serverContainer.instance("userService", (container) => {
-  return new AdminUserService(container.make("supabaseServiceClient"));
+serverContainer.instance('userService', (container) => {
+  return new AdminUserService(container.make('supabaseServiceClient'));
 });
 serverContainer.instance(
-  "stripeClient",
+  'stripeClient',
   () => new Stripe(process.env.STRIPE_SECRET_KEY!),
 );
-serverContainer.instance("stripeProductService", (container) => {
-  return new StripeProductService(container.make("stripeClient"));
+serverContainer.instance('stripeProductService', (container) => {
+  return new StripeProductService(container.make('stripeClient'));
 });
-serverContainer.instance("stripePriceService", (container) => {
-  return new StripePriceRepository(container.make("stripeClient"));
+serverContainer.instance('stripePriceService', (container) => {
+  return new StripePriceRepository(container.make('stripeClient'));
 });
-serverContainer.instance("stripeWebhookHandler", (container) => {
-  return new StripeWebhookHandler(container.make("adminProductService"));
+serverContainer.instance('stripeWebhookHandler', (container) => {
+  return new StripeWebhookHandler(container.make('adminProductService'));
 });
 
-serverContainer.instance("stripeProductIOService", (container) => {
+serverContainer.instance('stripeProductIOService', (container) => {
   return new StripeProductIOService(
-    container.make("adminProductService"),
-    container.make("stripeProductService"),
+    container.make('adminProductService'),
+    container.make('stripeProductService'),
   );
 });
