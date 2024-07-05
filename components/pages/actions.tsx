@@ -1,8 +1,8 @@
 "use server";
 
-import {url} from "@/utils/helpers";
-import {redirect} from "next/navigation";
-import {serverContainer} from "@/app/server-container";
+import { url } from "@/utils/helpers";
+import { redirect } from "next/navigation";
+import { serverContainer } from "@/app/server-container";
 
 export async function signUp({ email }: { email: string }) {
   if (!email || email.length <= 2) {

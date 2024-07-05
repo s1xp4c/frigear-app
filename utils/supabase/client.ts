@@ -1,4 +1,4 @@
-import {createBrowserClient} from "@supabase/ssr";
+import { createBrowserClient } from "@supabase/ssr";
 
 // TODO: https://github.com/nuxt-modules/supabase/blob/main/src/runtime/plugins/supabase.client.ts
 export const createSupabaseBrowserClient = () =>

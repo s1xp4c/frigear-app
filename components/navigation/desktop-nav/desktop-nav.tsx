@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,14 +12,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import {ThemeToggle} from "@/components/theme/theme-toggle";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 import NavProducts from "@/constants/navigation-products";
 import LogoFull from "@/components/logos/logo-full/logo-full";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
-import {User} from "@supabase/supabase-js";
-import {createSupabaseBrowserClient} from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
+import { createSupabaseBrowserClient } from "@/utils/supabase/client";
 
 export function DesktopNav() {
   return (

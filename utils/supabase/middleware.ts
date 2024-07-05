@@ -1,6 +1,6 @@
-import {type CookieOptions, createServerClient} from "@supabase/ssr";
-import {type NextRequest, NextResponse} from "next/server";
-import {ValidationError} from "@/lib/errors";
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
+import { ValidationError } from "@/lib/errors";
 
 export const updateSession = async (request: NextRequest) => {
   // Create an unmodified response

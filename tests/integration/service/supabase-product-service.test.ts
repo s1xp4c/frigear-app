@@ -1,9 +1,11 @@
-import {beforeAll, beforeEach, describe, expect, it} from "vitest";
-import {createSupabaseServiceRoleClient} from "@/utils/supabase/server";
-import {SupabaseClient} from "@supabase/supabase-js";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { createSupabaseServiceRoleClient } from "@/utils/supabase/server";
+import { SupabaseClient } from "@supabase/supabase-js";
 import ProductService from "@/lib/services/product/product-service";
-import SupabaseProductRepository, {IProductRepository,} from "@/lib/repositories/product/supabase-product-repository";
-import {copycat} from "@snaplet/copycat";
+import SupabaseProductRepository, {
+  IProductRepository,
+} from "@/lib/repositories/product/supabase-product-repository";
+import { copycat } from "@snaplet/copycat";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
 
 describe("service#product/product-service", () => {

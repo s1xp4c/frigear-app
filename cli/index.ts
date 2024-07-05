@@ -1,8 +1,8 @@
-import {createMain} from "citty";
+import { createMain } from "citty";
 import stripe from "./stripe";
-import {configDotenv} from "dotenv";
+import { configDotenv } from "dotenv";
 
-import {name, version} from "./../package.json";
+import { name, version } from "./../package.json";
 
 const main = createMain({
   meta: {

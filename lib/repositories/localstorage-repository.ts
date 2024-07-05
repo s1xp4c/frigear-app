@@ -1,7 +1,7 @@
 "use client";
 
-import type {ShoppingCartItem} from "@/lib/services/shop/shopping-cart/shopping-cart-service";
-import {IRepository} from "@/lib/types";
+import type { ShoppingCartItem } from "@/lib/services/shop/shopping-cart/shopping-cart-service";
+import { IRepository } from "@/lib/types";
 
 export default class LocalstorageRepository<Model extends any>
   implements IRepository<string, Model, object, object>

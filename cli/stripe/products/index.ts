@@ -1,5 +1,5 @@
-import {defineCommand} from "citty";
-import {serverContainer} from "@/app/server-container";
+import { defineCommand } from "citty";
+import { serverContainer } from "@/app/server-container";
 
 export default defineCommand({
   subCommands: {

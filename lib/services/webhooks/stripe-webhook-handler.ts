@@ -1,8 +1,8 @@
-import {NextResponse} from "next/server";
-import {IProductService} from "@/lib/services/product/product-service";
+import { NextResponse } from "next/server";
+import { IProductService } from "@/lib/services/product/product-service";
 import type Stripe from "stripe";
-import {NotFoundError} from "@/lib/errors";
-import {transformStripeProduct} from "@/utils/stripe/helpers";
+import { NotFoundError } from "@/lib/errors";
+import { transformStripeProduct } from "@/utils/stripe/helpers";
 
 export interface StripeWebhookEventData {
   object: Record<string, any>;

@@ -1,8 +1,12 @@
-import type {SupabaseClient} from "@supabase/supabase-js";
-import {CreateProduct, Product, UpdateProduct,} from "@/lib/repositories/product/index";
-import {translateSupabaseError} from "@/utils/supabase/middleware";
-import {NotFoundError} from "@/lib/errors";
-import type {IRepository} from "@/lib/types";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import {
+  CreateProduct,
+  Product,
+  UpdateProduct,
+} from "@/lib/repositories/product/index";
+import { translateSupabaseError } from "@/utils/supabase/middleware";
+import { NotFoundError } from "@/lib/errors";
+import type { IRepository } from "@/lib/types";
 import SupabaseRepository from "@/lib/repositories/supabase-repository";
 
 export interface IProductRepository

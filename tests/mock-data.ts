@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
-import {StripeWebhookEvent} from "@/lib/services/webhooks/stripe-webhook-handler";
-import type {NextRequest} from "next/server";
-import {RequestData} from "next/dist/server/web/types";
+import { StripeWebhookEvent } from "@/lib/services/webhooks/stripe-webhook-handler";
+import type { NextRequest } from "next/server";
+import { RequestData } from "next/dist/server/web/types";
 
 export const email = "test@example.com";
 

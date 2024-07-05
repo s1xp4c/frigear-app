@@ -1,6 +1,6 @@
-import {defaultExclude, defineConfig} from "vitest/config";
+import { defaultExclude, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import {resolve} from "path";
+import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({

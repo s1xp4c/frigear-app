@@ -1,6 +1,6 @@
 "use server";
 
-import {serverContainer} from "@/app/server-container";
+import { serverContainer } from "@/app/server-container";
 
 export default async function AppPage() {
   const client = serverContainer.make("supabaseClient");

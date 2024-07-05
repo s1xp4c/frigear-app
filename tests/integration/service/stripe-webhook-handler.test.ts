@@ -1,11 +1,15 @@
-import {beforeAll, describe, expect, it} from "vitest";
-import StripeWebhookHandler, {IStripeWebhookHandler,} from "@/lib/services/webhooks/stripe-webhook-handler";
+import { beforeAll, describe, expect, it } from "vitest";
+import StripeWebhookHandler, {
+  IStripeWebhookHandler,
+} from "@/lib/services/webhooks/stripe-webhook-handler";
 import MockRepository from "@/tests/mocks/mock-repository";
-import ProductService, {IProductService,} from "@/lib/services/product/product-service";
-import {buildStripeEvent, buildStripeProduct} from "@/tests/mock-data";
+import ProductService, {
+  IProductService,
+} from "@/lib/services/product/product-service";
+import { buildStripeEvent, buildStripeProduct } from "@/tests/mock-data";
 import type Stripe from "stripe";
 import MockStripePriceService from "@/tests/mocks/mock-stripe-price-service";
-import {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
+import { IProductRepository } from "@/lib/repositories/product/supabase-product-repository";
 
 describe("service#webhooks/stripe-webhook-handler", () => {
   let repository: IProductRepository;

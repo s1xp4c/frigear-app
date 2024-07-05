@@ -1,6 +1,9 @@
 "use client";
-import {exportProductsToStripe, importStripeProducts,} from "@/app/admin/products/actions/actions";
-import {useCallback, useState} from "react";
+import {
+  exportProductsToStripe,
+  importStripeProducts,
+} from "@/app/admin/products/actions/actions";
+import { useCallback, useState } from "react";
 
 //A page displaying the following actions:
 const actions: Action[] = [

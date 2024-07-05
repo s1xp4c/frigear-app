@@ -1,6 +1,6 @@
-import {POST} from "@/app/api/webhooks/stripe/route";
-import {describe, expect, it} from "vitest";
-import {buildNextRequest, buildStripeEvent} from "@/tests/mock-data";
+import { POST } from "@/app/api/webhooks/stripe/route";
+import { describe, expect, it } from "vitest";
+import { buildNextRequest, buildStripeEvent } from "@/tests/mock-data";
 
 describe("/api/webhooks/stripe", () => {
   it("should handle a correct event", async () => {

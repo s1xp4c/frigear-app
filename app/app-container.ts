@@ -1,8 +1,10 @@
 import AuthenticationService from "@/lib/services/auth/authentication-service";
-import {SupabaseClient} from "@supabase/supabase-js";
-import {DependencyContainer} from "@/lib/dependency-container";
-import {createSupabaseBrowserClient} from "@/utils/supabase/client";
-import SupabaseProductRepository, {IProductRepository,} from "@/lib/repositories/product/supabase-product-repository";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { DependencyContainer } from "@/lib/dependency-container";
+import { createSupabaseBrowserClient } from "@/utils/supabase/client";
+import SupabaseProductRepository, {
+  IProductRepository,
+} from "@/lib/repositories/product/supabase-product-repository";
 
 export interface AppContainer {
   supabaseClient: SupabaseClient;

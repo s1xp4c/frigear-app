@@ -1,6 +1,6 @@
-import type {SupabaseClient, User} from "@supabase/supabase-js";
-import {ValidationError} from "@/lib/errors";
-import {jwtDecode} from "jwt-decode";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { ValidationError } from "@/lib/errors";
+import { jwtDecode } from "jwt-decode";
 
 export default class AuthenticationService {
   constructor(private client: SupabaseClient) {}

@@ -1,7 +1,7 @@
-import type {SupabaseClient} from "@supabase/supabase-js";
-import {translateSupabaseError} from "@/utils/supabase/middleware";
-import {NotFoundError} from "@/lib/errors";
-import type {IRepository} from "@/lib/types";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { translateSupabaseError } from "@/utils/supabase/middleware";
+import { NotFoundError } from "@/lib/errors";
+import type { IRepository } from "@/lib/types";
 
 export default class SupabaseRepository<
   Entity extends any,

@@ -1,9 +1,9 @@
-import type {Metadata} from "next";
-import {Inter} from "next/font/google";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import {url} from "@/utils/helpers";
-import {PropsWithChildren} from "react";
-import {ThemeProvider} from "@/components/theme/theme-provider";
+import { url } from "@/utils/helpers";
+import { PropsWithChildren } from "react";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import NavBar from "@/components/navigation/desktop-nav/desktop-nav";
 import MobileNav from "@/components/navigation/mobile-nav/mobile-nav";
 import Footer from "@/components/footer/footer";

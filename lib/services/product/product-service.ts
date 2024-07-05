@@ -1,7 +1,11 @@
-import type {CreateProduct, Product, UpdateProduct,} from "@/lib/repositories/product";
+import type {
+  CreateProduct,
+  Product,
+  UpdateProduct,
+} from "@/lib/repositories/product";
 import type Stripe from "stripe";
-import {IPriceRepository} from "@/lib/repositories/product/stripe-price-repository";
-import {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
+import { IPriceRepository } from "@/lib/repositories/product/stripe-price-repository";
+import { IProductRepository } from "@/lib/repositories/product/supabase-product-repository";
 
 export interface IProductService {
   all(): Promise<Product[]>;

@@ -1,9 +1,9 @@
 "use client";
-import {signUp} from "@/components/pages/actions";
-import {Label} from "@/components/ui/label";
-import {TextInput} from "@/components/ui/input/text-input";
-import {useState} from "react";
-import {AppConfig} from "@/app/config";
+import { signUp } from "@/components/pages/actions";
+import { Label } from "@/components/ui/label";
+import { TextInput } from "@/components/ui/input/text-input";
+import { useState } from "react";
+import { AppConfig } from "@/app/config";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");

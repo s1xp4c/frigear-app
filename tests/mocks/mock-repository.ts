@@ -1,7 +1,11 @@
-import {CreateProduct, Product, UpdateProduct,} from "@/lib/repositories/product";
-import {NotFoundError} from "@/lib/errors";
-import {copycat} from "@snaplet/copycat";
-import {IRepository} from "@/lib/types";
+import {
+  CreateProduct,
+  Product,
+  UpdateProduct,
+} from "@/lib/repositories/product";
+import { NotFoundError } from "@/lib/errors";
+import { copycat } from "@snaplet/copycat";
+import { IRepository } from "@/lib/types";
 
 export default class MockRepository<
   Key extends any = string,

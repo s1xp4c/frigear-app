@@ -1,13 +1,13 @@
-import {CookieOptions, createServerClient} from "@supabase/ssr";
-import {cookies} from "next/headers";
+import { CookieOptions, createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export const createSupabaseServiceRoleClient = () => {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {}
-      }
+    {
+      cookies: {},
+    },
   );
 };
 

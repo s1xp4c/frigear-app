@@ -1,10 +1,10 @@
 import type StripeProductService from "@/lib/services/product/stripe-product-service";
-import {IProductService} from "@/lib/services/product/product-service";
-import {transformStripeProduct} from "@/utils/stripe/helpers";
+import { IProductService } from "@/lib/services/product/product-service";
+import { transformStripeProduct } from "@/utils/stripe/helpers";
 import type Stripe from "stripe";
-import type {Product} from "@/lib/repositories/product";
-import {upperFirst} from "scule";
-import {v4 as uuidv4} from "uuid";
+import type { Product } from "@/lib/repositories/product";
+import { upperFirst } from "scule";
+import { v4 as uuidv4 } from "uuid";
 
 const transformInternalProductToStripe = (
   product: Product,
