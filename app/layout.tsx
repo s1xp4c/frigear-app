@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import NavBar from '@/components/navigation/desktop-nav/desktop-nav';
 import MobileNav from '@/components/navigation/mobile-nav/mobile-nav';
-import Footer from '@/components/footer/footer';
+import Footer from '@/components/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
