@@ -1,37 +1,41 @@
-import {type EmailOtpType} from '@supabase/supabase-js'
-import {type NextRequest, NextResponse} from 'next/server'
+import { type NextRequest, NextResponse } from "next/server";
 
-import {serverContainer} from "@/app/server-container";
+import { serverContainer } from "@/app/server-container";
 
 export async function GET(request: NextRequest) {
-    const {searchParams} = new URL(request.url)
-    const token_hash = searchParams.get('token_hash')
-    const type = searchParams.get('type') as EmailOtpType | null
-    const next = searchParams.get('next') ?? '/'
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
+  const next = searchParams.get("next") ?? "/";
 
-    const redirectTo = request.nextUrl.clone()
-    redirectTo.pathname = next
-    redirectTo.searchParams.delete('token_hash')
-    redirectTo.searchParams.delete('type')
-    try {
+  const redirectTo = request.nextUrl.clone();
+  redirectTo.pathname = next;
+  redirectTo.searchParams.delete("code");
+  console.log(request.url);
+  try {
+    if (code) {
+      const supabase = serverContainer.make("supabaseClient");
 
-        if (token_hash && type) {
-            const supabase = serverContainer.make('supabaseClient')
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
-            const {error} = await supabase.auth.verifyOtp({
-                type,
-                token_hash,
-            })
-            if (!error) {
-                redirectTo.searchParams.delete('next')
-                return NextResponse.redirect(redirectTo)
-            }
-        }
+      if (error) {
+        console.warn("Unhandled error: //TODO: fix");
+        throw error;
+      }
 
-        // return the user to an error page with some instructions
-        redirectTo.pathname = '/error'
-        return NextResponse.redirect(redirectTo)
-    } catch (err) {
-        return err;
+      if (data && data.session) {
+        await supabase.auth.setSession(data.session);
+        console.log(data);
+      }
+
+      redirectTo.searchParams.delete("next");
+      return NextResponse.redirect(redirectTo);
     }
+
+    // return the user to an error page with some instructions
+    redirectTo.pathname = "/error";
+    return NextResponse.redirect(redirectTo);
+  } catch (err) {
+    throw err;
+    return err;
+  }
 }

@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const ColorPalette = dynamic(
   () => import("@/components/branding/color-palette"),
-  { ssr: false }
+  { ssr: false },
 );
 
 const Page: React.FC = () => {

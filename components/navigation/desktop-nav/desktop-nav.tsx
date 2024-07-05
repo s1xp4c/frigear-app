@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +18,8 @@ import NavProducts from "@/constants/navigation-products";
 import LogoFull from "@/components/logos/logo-full/logo-full";
 import { Button } from "@/components/ui/button";
 import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
+import { User } from "@supabase/supabase-js";
+import { createSupabaseBrowserClient } from "@/utils/supabase/client";
 
 export function DesktopNav() {
   return (
@@ -98,7 +101,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >
@@ -114,6 +117,19 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem";
 
 const NavBar = () => {
+  const client = createSupabaseBrowserClient();
+  const [user, setUser] = useState<User | undefined>();
+
+  const [state, setState] = useState<string>("");
+
+  client.auth.onAuthStateChange((event) => {
+    setState(event);
+  });
+
+  useEffect(() => {
+    client.auth.getUser().then(({ data }) => setUser(data.user || undefined));
+  }, [state, client.auth]);
+
   return (
     <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
       <div className="flex gap-4 w-28">
@@ -123,7 +139,18 @@ const NavBar = () => {
       <div className="flex gap-4">
         <ThemeToggle />
         <Button variant="default" size="lg">
-          <Link href="/auth/signin">LOGIN</Link>
+          {!user && <Link href="/auth/signin">LOGIN</Link>}
+          {user && (
+            <Link
+              href="#"
+              onClick={async () => {
+                await client.auth.signOut();
+                location.replace("/");
+              }}
+            >
+              LOGOUT
+            </Link>
+          )}
         </Button>
       </div>
     </div>
