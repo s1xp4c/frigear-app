@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
 import "./globals.css";
-import { getURL } from "@/utils/helpers";
-import { PropsWithChildren } from "react";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import NavBar, {
-  DesktopNav,
-} from "@/components/navigation/desktop-nav/desktop-nav";
+import {url} from "@/utils/helpers";
+import {PropsWithChildren} from "react";
+import {ThemeProvider} from "@/components/theme/theme-provider";
+import NavBar from "@/components/navigation/desktop-nav/desktop-nav";
 import MobileNav from "@/components/navigation/mobile-nav/mobile-nav";
 import Footer from "@/components/footer/footer";
 
@@ -39,7 +37,7 @@ const meta = {
     },
   },
   favicon: "/favicon.ico",
-  url: getURL(),
+  url: url(),
 };
 
 export async function generateMetadata(): Promise<Metadata> {

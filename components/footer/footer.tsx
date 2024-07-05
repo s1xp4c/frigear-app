@@ -35,7 +35,6 @@ export default function Footer() {
         <div className="flex items-center space-x-4">
           <Link
             aria-label="Github Repository"
-            aria-title="Github Repository"
             href="https://github.com/s1xp4c/frigear-sub-payments"
             target="_blank"
             rel="noopener noreferrer"

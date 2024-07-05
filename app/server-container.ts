@@ -1,6 +1,6 @@
 import StripeWebhookHandler, {type IStripeWebhookHandler} from "@/lib/services/webhooks/stripe-webhook-handler";
 import ProductService, {IProductService} from "@/lib/services/product/product-service";
-import {createSupabaseServerClient, createSupabaseServiceRoleClient} from "@/utils/supabase/server";
+import {createServerSupabaseClient, createSupabaseServiceRoleClient} from "@/utils/supabase/server";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {DependencyContainer} from "@/lib/dependency-container";
 import SupabaseProductRepository, {IProductRepository} from "@/lib/repositories/product/supabase-product-repository";
@@ -9,7 +9,6 @@ import Stripe from "stripe";
 import StripeProductService from "@/lib/services/product/stripe-product-service";
 import StripePriceRepository from "@/lib/repositories/product/stripe-price-repository";
 import StripeProductIOService from "@/lib/services/product/stripe-product-io-service";
-import {IRepository} from "@/lib/types";
 
 
 export interface ServerContainer {
@@ -33,7 +32,7 @@ export interface ServerContainer {
 export const serverContainer = new DependencyContainer<ServerContainer>();
 
 serverContainer.instance('supabaseServiceClient', () => createSupabaseServiceRoleClient());
-serverContainer.instance('supabaseClient', () => createSupabaseServerClient());
+serverContainer.instance('supabaseClient', () => createServerSupabaseClient());
 serverContainer.instance('productRepository', (container) => {
     //It is important that we pass the correct client on the server
     // supabaseClient is the anon OR authenticated user's token being used

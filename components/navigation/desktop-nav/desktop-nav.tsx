@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,12 +12,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+import {ThemeToggle} from "@/components/theme/theme-toggle";
 
 import NavProducts from "@/constants/navigation-products";
 import LogoFull from "@/components/logos/logo-full/logo-full";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
+import {User} from "@supabase/supabase-js";
+import {appContainer} from "@/app/app-container";
 
 export function DesktopNav() {
   return (
@@ -114,6 +117,19 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem";
 
 const NavBar = () => {
+  const client = appContainer.make('supabaseClient');
+  const [user, setUser] = useState<User|undefined>();
+
+  useEffect(() => {
+    client.auth.getUser().then(({data}) => setUser(data.user || undefined));
+  }, []);
+
+  client.auth.onAuthStateChange(async (event) =>{
+    if(event === 'SIGNED_OUT'){
+      await client.auth.signOut();
+      setUser(undefined);
+    }
+  });
   return (
     <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
       <div className="flex gap-4 w-28">
@@ -123,7 +139,8 @@ const NavBar = () => {
       <div className="flex gap-4">
         <ThemeToggle />
         <Button variant="default" size="lg">
-          <Link href="/auth/signin">LOGIN</Link>
+          {!user && <Link href="/auth/signin">LOGIN</Link>}
+          {user?.email && <Link href="/auth/signout">LOGOUT</Link>}
         </Button>
       </div>
     </div>
