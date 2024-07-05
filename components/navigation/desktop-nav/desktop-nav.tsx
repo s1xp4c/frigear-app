@@ -120,9 +120,15 @@ const NavBar = () => {
     const client = createSupabaseBrowserClient();
     const [user, setUser] = useState<User | undefined>();
 
+    const [state, setState] = useState<string>('');
+
+    client.auth.onAuthStateChange((event) => {
+        setState(event);
+    })
+
     useEffect(() => {
         client.auth.getUser().then(({data}) => setUser(data.user || undefined));
-    }, []);
+    }, [state]);
 
     return (
         <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
