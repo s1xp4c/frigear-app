@@ -1,4 +1,4 @@
-import type { SupabaseClient, User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from '@supabase/supabase-js';
 
 export default class AdminUserService {
   constructor(private client: SupabaseClient) {}
@@ -32,7 +32,7 @@ export default class AdminUserService {
   }
 
   async getByEmail(email: string): Promise<any | undefined> {
-    const { data, error } = await this.client.rpc("get_user_id_by_email", {
+    const { data, error } = await this.client.rpc('get_user_id_by_email', {
       email,
     });
     return data;

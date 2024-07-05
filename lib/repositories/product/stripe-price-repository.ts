@@ -1,5 +1,5 @@
-import type Stripe from "stripe";
-import type { IRepository } from "@/lib/types";
+import type Stripe from 'stripe';
+import type { IRepository } from '@/lib/types';
 
 export interface IPriceRepository
   extends IRepository<

@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { serverContainer } from "@/app/server-container";
+import { serverContainer } from '@/app/server-container';
 
 export default async function AdminProductsPage() {
-  const productService = serverContainer.make("productService");
+  const productService = serverContainer.make('productService');
   const products = await productService.all();
 
   return (

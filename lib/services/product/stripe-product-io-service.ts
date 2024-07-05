@@ -1,10 +1,10 @@
-import type StripeProductService from "@/lib/services/product/stripe-product-service";
-import { IProductService } from "@/lib/services/product/product-service";
-import { transformStripeProduct } from "@/utils/stripe/helpers";
-import type Stripe from "stripe";
-import type { Product } from "@/lib/repositories/product";
-import { upperFirst } from "scule";
-import { v4 as uuidv4 } from "uuid";
+import type StripeProductService from '@/lib/services/product/stripe-product-service';
+import { IProductService } from '@/lib/services/product/product-service';
+import { transformStripeProduct } from '@/utils/stripe/helpers';
+import type Stripe from 'stripe';
+import type { Product } from '@/lib/repositories/product';
+import { upperFirst } from 'scule';
+import { v4 as uuidv4 } from 'uuid';
 
 const transformInternalProductToStripe = (
   product: Product,
@@ -20,7 +20,7 @@ const transformInternalProductToStripe = (
     //Might not be working expected with features.
     marketing_features: features
       ? Object.keys(features).map((feature) => ({
-          name: upperFirst(String(feature).replaceAll("_", " ")),
+          name: upperFirst(String(feature).replaceAll('_', ' ')),
         }))
       : undefined,
     default_price_data: price
@@ -53,7 +53,7 @@ export default class StripeProductIOService {
           return await this.productService.updateById(existing.id, attributes);
         }
 
-        throw new Error("No strip ID defined.");
+        throw new Error('No strip ID defined.');
       }),
     );
   }

@@ -1,6 +1,6 @@
-import type { SupabaseClient, User } from "@supabase/supabase-js";
-import { ValidationError } from "@/lib/errors";
-import { jwtDecode } from "jwt-decode";
+import type { SupabaseClient, User } from '@supabase/supabase-js';
+import { ValidationError } from '@/lib/errors';
+import { jwtDecode } from 'jwt-decode';
 
 export default class AuthenticationService {
   constructor(private client: SupabaseClient) {}
@@ -39,7 +39,7 @@ export default class AuthenticationService {
     }
 
     if (!response.data.user) {
-      throw new ValidationError("Error...");
+      throw new ValidationError('Error...');
     }
 
     return response.data.user;
@@ -61,7 +61,7 @@ export default class AuthenticationService {
     }
 
     if (!response.data.user) {
-      throw new ValidationError("Invalid credentials.");
+      throw new ValidationError('Invalid credentials.');
     }
     return response;
   }

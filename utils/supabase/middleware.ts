@@ -1,6 +1,6 @@
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
-import { ValidationError } from "@/lib/errors";
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
+import { ValidationError } from '@/lib/errors';
 
 export const updateSession = async (request: NextRequest) => {
   // Create an unmodified response
@@ -40,7 +40,7 @@ export const updateSession = async (request: NextRequest) => {
           // If the cookie is removed, update the cookies for the request and response
           request.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
           response = NextResponse.next({
@@ -50,7 +50,7 @@ export const updateSession = async (request: NextRequest) => {
           });
           response.cookies.set({
             name,
-            value: "",
+            value: '',
             ...options,
           });
         },
@@ -72,7 +72,7 @@ export async function translateSupabaseError(
   } = {},
 ) {
   //duplicate key value violates unique constraint "product_slug_key"
-  if (error && error.code && error.code === "23505") {
+  if (error && error.code && error.code === '23505') {
     throw new ValidationError(
       error.details || messages.duplicate_key || error.message,
     );

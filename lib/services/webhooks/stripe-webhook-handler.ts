@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
-import { IProductService } from "@/lib/services/product/product-service";
-import type Stripe from "stripe";
-import { NotFoundError } from "@/lib/errors";
-import { transformStripeProduct } from "@/utils/stripe/helpers";
+import { NextResponse } from 'next/server';
+import { IProductService } from '@/lib/services/product/product-service';
+import type Stripe from 'stripe';
+import { NotFoundError } from '@/lib/errors';
+import { transformStripeProduct } from '@/utils/stripe/helpers';
 
 export interface StripeWebhookEventData {
   object: Record<string, any>;
@@ -10,7 +10,7 @@ export interface StripeWebhookEventData {
 
 export interface StripeWebhookEvent {
   type: string;
-  object: "event";
+  object: 'event';
   data: StripeWebhookEventData;
 }
 
@@ -27,25 +27,25 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
       process.env.STRIPE_PRODUCT_SYNC_LIVEMODE &&
       data.object.livemode === false
     ) {
-      return new NextResponse("", {
+      return new NextResponse('', {
         status: 422,
       });
     }
 
     // Available events: https://docs.stripe.com/api/events/types
     switch (type) {
-      case "product.created":
+      case 'product.created':
         return this.createProduct(data);
-      case "product.updated":
+      case 'product.updated':
         return this.updateProduct(data);
-      case "product.deleted":
+      case 'product.deleted':
         return this.deleteProduct(data);
-      case "price.updated":
+      case 'price.updated':
         return this.updatePrice(data);
-      case "price.created":
-      case "payment_intent.created":
-      case "payment_intent.succeeded":
-      case "payment_intent.cancelled":
+      case 'price.created':
+      case 'payment_intent.created':
+      case 'payment_intent.succeeded':
+      case 'payment_intent.cancelled':
         throw new Error(`Not implemented event: ${type}`);
       default:
         throw new Error(`Unhandled event: ${type}`);
@@ -90,7 +90,7 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
     const { id, unit_amount, currency, product } = data.object as Stripe.Price;
     if (!unit_amount) return NextResponse.json({});
 
-    const stripeProductId = typeof product === "string" ? product : product.id;
+    const stripeProductId = typeof product === 'string' ? product : product.id;
     const productForUpdate =
       await this.productService.getByStripeId(stripeProductId);
 

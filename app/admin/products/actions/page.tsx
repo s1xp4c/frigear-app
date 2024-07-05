@@ -1,20 +1,20 @@
-"use client";
+'use client';
 import {
   exportProductsToStripe,
   importStripeProducts,
-} from "@/app/admin/products/actions/actions";
-import { useCallback, useState } from "react";
+} from '@/app/admin/products/actions/actions';
+import { useCallback, useState } from 'react';
 
 //A page displaying the following actions:
 const actions: Action[] = [
   {
-    name: "Import Stripe->Products",
-    description: "Imports all products from stripe",
+    name: 'Import Stripe->Products',
+    description: 'Imports all products from stripe',
     callback: importStripeProducts,
   },
   {
-    name: "Export Products->Stripe",
-    description: "Exports all products to stripe",
+    name: 'Export Products->Stripe',
+    description: 'Exports all products to stripe',
     callback: exportProductsToStripe,
   },
 ];
