@@ -128,7 +128,7 @@ const NavBar = () => {
 
     useEffect(() => {
         client.auth.getUser().then(({data}) => setUser(data.user || undefined));
-    }, [state]);
+    }, [state, client.auth]);
 
     return (
         <div className="nav-bar left-1/2 -translate-x-1/2 w-full">

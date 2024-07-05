@@ -30,7 +30,7 @@ type ActionButtonProps = {
 export function ActionButton({action: {name, description, callback}, onResult}: ActionButtonProps) {
     const onClick = useCallback(async () => {
         onResult(await callback());
-    }, []);
+    }, [callback, onResult]);
 
     return (
         <form action={onClick}>

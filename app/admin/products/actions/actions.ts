@@ -1,6 +1,5 @@
 "use server";
 
-import {NextResponse} from "next/server";
 import {serverContainer} from "@/app/server-container";
 
 export async function importStripeProducts() {
