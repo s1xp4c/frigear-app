@@ -2,15 +2,14 @@
 
 import {url} from "@/utils/helpers";
 import {redirect} from "next/navigation";
-import {cookies} from "next/headers";
-import {createSupabaseActionClient} from "@/utils/supabase/action";
+import {serverContainer} from "@/app/server-container";
 
 export async function signUp({email}: { email: string }) {
     if (!email || email.length <= 2) {
         throw new Error(`No email.`);
     }
 
-    const client = createSupabaseActionClient();
+    const client = serverContainer.make('supabaseClient')
     const {data, error} = await client.auth.signInWithOtp({
         email,
         options: {
@@ -22,8 +21,6 @@ export async function signUp({email}: { email: string }) {
             shouldCreateUser: true,
         }
     });
-
-    cookies().set({value: email, name: 'email'});
 
     if(error){
         console.warn('Unhandled error. //TODO: Fix')

@@ -1,13 +1,11 @@
 import {type NextRequest, NextResponse} from 'next/server'
 
 import {serverContainer} from "@/app/server-container";
-import {cookies} from "next/headers";
 
 export async function GET(request: NextRequest) {
     const {searchParams} = new URL(request.url)
     const code = searchParams.get('code')
     const next = searchParams.get('next') ?? '/'
-    const email = cookies().get('email')?.value || undefined;
 
     const redirectTo = request.nextUrl.clone()
     redirectTo.pathname = next
