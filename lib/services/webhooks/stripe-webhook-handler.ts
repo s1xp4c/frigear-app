@@ -98,7 +98,7 @@ export default class StripeWebhookHandler implements IStripeWebhookHandler {
 
     await this.productService.updateById(productForUpdate.id, {
       price: unit_amount / 100, //in case it is the same price id.
-      default_price_id: id,
+      default_stripe_price_id: id,
       currency_code: String(currency).toUpperCase(),
     });
     return NextResponse.json({});

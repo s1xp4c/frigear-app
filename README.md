@@ -22,6 +22,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 > In order to test stripe events, you'll need to use two terminals.
 
 
+## frigear-app CLI
+- Import stripe products: `pnpm run cli stripe products import`
+- Delete all products: `pnpm run cli stripe products delete-all`
+
+
 ## Test users (locally)
 | Role      | Email                   | Password    |
 |-----------|-------------------------|-------------|
