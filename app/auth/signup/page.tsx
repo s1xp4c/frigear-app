@@ -2,9 +2,9 @@
 import SignUp from "@/components/pages/sign-up";
 
 type Params = {
-    params: {}
+  params: {};
 };
 
 export default async function Page({ params }: Params) {
-    return <SignUp/>;
+  return <SignUp />;
 }

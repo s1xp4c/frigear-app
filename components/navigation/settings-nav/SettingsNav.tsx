@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+import {cn} from "@/lib/utils";
+import {ThemeToggle} from "@/components/theme/theme-toggle";
 
 export function SettingsNav() {
   return (
@@ -65,7 +65,7 @@ const ListItem = React.forwardRef<
         ref={ref}
         className={cn(
           "block select-none space-y-1 rounded-md p-1 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-          className
+          className,
         )}
         {...props}
       >
