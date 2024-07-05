@@ -21,7 +21,7 @@ export function transformStripeProduct(data: StripeWebhookEventData): Product {
     slug: kebabCase(name).replaceAll(" ", "").concat(id),
     active,
     description: description || undefined,
-    default_price_id:
+    default_stripe_price_id:
       typeof default_price === "string"
         ? default_price
         : default_price?.id || undefined,

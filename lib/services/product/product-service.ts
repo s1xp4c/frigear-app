@@ -70,9 +70,9 @@ export default class ProductService implements IProductService {
   }
 
   async create(attributes: CreateProduct): Promise<Product> {
-    if (attributes.default_price_id) {
+    if (attributes.default_stripe_price_id) {
       const price = await this.priceRepository.getById(
-        attributes.default_price_id,
+        attributes.default_stripe_price_id,
       );
       if (price.unit_amount) {
         attributes.price = price.unit_amount / 100;
@@ -88,11 +88,11 @@ export default class ProductService implements IProductService {
     const product = await this.productRepository.getById(id);
 
     if (
-      attributes.default_price_id &&
-      product.default_price_id !== attributes.default_price_id
+      attributes.default_stripe_price_id &&
+      product.default_stripe_price_id !== attributes.default_stripe_price_id
     ) {
       const price = await this.priceRepository.getById(
-        attributes.default_price_id,
+        attributes.default_stripe_price_id,
       );
       if (price.unit_amount) {
         attributes.price = price.unit_amount / 100;

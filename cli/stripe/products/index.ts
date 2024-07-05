@@ -12,7 +12,7 @@ export default defineCommand({
     list: defineCommand({
       async run({}) {
         const service = serverContainer.make("stripeProductService");
-        console.table(service.all());
+        console.log(await service.all());
       },
     }),
     "delete-all": defineCommand({

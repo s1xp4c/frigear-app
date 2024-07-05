@@ -10,7 +10,7 @@ export interface DatabaseProduct {
   active: boolean;
   price: number;
   currency_code: string;
-  default_price_id?: string;
+  default_stripe_price_id?: string;
   description?: string;
   features?: JsonBField;
   tags: string[];
