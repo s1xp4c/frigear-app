@@ -11,7 +11,7 @@ export default defineConfig({
     coverage: {
       exclude: [
         ...defaultExclude,
-        'cli',
+        'cli', //TODO: Add testing for the cli.
         'supabase',
         'public',
         '.github',
@@ -19,7 +19,7 @@ export default defineConfig({
         'postcss.config.mjs',
         'tailwind.config.ts',
         'vitest.workspace.ts',
-        'next.config.ts',
+        'next.config.mjs',
       ],
       reporter: ['text', 'json-summary', 'json'],
       reportOnFailure: true,
