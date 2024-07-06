@@ -14,12 +14,12 @@ import {
 } from '@/components/ui/navigation-menu';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-import NavProducts from '@/constants/navigation-products';
+import { ProductGroups } from '@/constants/navigation';
 import LogoFull from '@/components/logos/logo-full/logo-full';
 import { Button } from '@/components/ui/button';
 import LogoFGR from '@/components/logos/logo-fgr/logo-fgr';
-import { User } from '@supabase/supabase-js';
 import { createSupabaseBrowserClient } from '@/utils/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 export function DesktopNav() {
   return (
@@ -31,7 +31,7 @@ export function DesktopNav() {
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-4">
                 <NavigationMenuLink asChild>
-                  <a
+                  <Link
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
@@ -51,20 +51,20 @@ export function DesktopNav() {
                     <p className="text-sm leading-tight text-muted-foreground">
                       Denmark
                     </p>
-                  </a>
+                  </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/volunteering" title="Volunteering">
-                Volunteering with Frigear
+              <ListItem title="Volunteering">
+                <Link href="/volunteering">Volunteering with Frigear</Link>
               </ListItem>
-              <ListItem href="/support" title="Support">
-                General Web and shop Support
+              <ListItem title="Support">
+                <Link href="/support">General Web and shop Support</Link>
               </ListItem>
-              <ListItem href="/projects" title="Projects">
-                Internal and external projects
+              <ListItem title="Projects">
+                <Link href="/projects">Internal and external projects</Link>
               </ListItem>
-              <ListItem href="/pr/" title="Branding">
-                PR and Branding guides
+              <ListItem title="Branding">
+                <Link href="/pr/">PR and Branding guides</Link>
               </ListItem>
             </ul>
           </NavigationMenuContent>
@@ -73,13 +73,9 @@ export function DesktopNav() {
           <NavigationMenuTrigger>Products</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {NavProducts.map((products) => (
-                <ListItem
-                  key={products.title}
-                  title={products.title}
-                  href={products.href}
-                >
-                  {products.description}
+              {ProductGroups.map((products) => (
+                <ListItem key={products.title} title={products.title}>
+                  <Link href={products.href}>{products.description}</Link>
                 </ListItem>
               ))}
             </ul>
@@ -120,26 +116,19 @@ const NavBar = () => {
   const client = createSupabaseBrowserClient();
   const [user, setUser] = useState<User | undefined>();
 
-  const [state, setState] = useState<string>('');
-
-  client.auth.onAuthStateChange((event) => {
-    setState(event);
-  });
-
   useEffect(() => {
     client.auth.getUser().then(({ data }) => setUser(data.user || undefined));
-  }, [state, client.auth]);
-
+  }, [client, user]);
   return (
     <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
       <div className="flex gap-4 w-28">
-        <LogoFull />
+        <LogoFull /> {/* TODO: Add link to / on logo. */}
         <DesktopNav />
       </div>
       <div className="flex gap-4">
         <ThemeToggle />
         <Button variant="default" size="lg">
-          {!user && <Link href="/auth/signin">LOGIN</Link>}
+          {!user && <Link href="/auth/signin">Sign In</Link>}
           {user && (
             <Link
               href="#"
@@ -148,7 +137,7 @@ const NavBar = () => {
                 location.replace('/');
               }}
             >
-              LOGOUT
+              Sign Out
             </Link>
           )}
         </Button>

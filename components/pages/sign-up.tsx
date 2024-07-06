@@ -3,9 +3,9 @@ import { signUp } from '@/components/pages/actions';
 import { Label } from '@/components/ui/label';
 import { TextInput } from '@/components/ui/input/text-input';
 import { useState } from 'react';
-import { AppConfig } from '@/app/config';
+import { AppConfig } from '@/constants/config';
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
