@@ -61,10 +61,12 @@ export async function useSupabaseMiddlewareUser(
   response: NextResponse,
 ) {
   const client = createSupabaseMiddlewareClient(request, response);
-
-  const { data } = await client.auth.getUser();
-
-  return data.user || undefined;
+  try {
+    const { data } = await client.auth.getUser();
+    return data.user || undefined;
+  } catch (err: any) {
+    return undefined;
+  }
 }
 
 export const UserSessionMiddleware: Middleware = async (
@@ -81,9 +83,13 @@ export const UserSessionMiddleware: Middleware = async (
   const supabase = createSupabaseMiddlewareClient(request, response);
   // https://supabase.com/docs/guides/auth/server-side/nextjs
   // This is required for server components.
-  await supabase.auth.getUser();
+  try {
+    await supabase.auth.getUser();
 
-  return response;
+    return response;
+  } catch (err: any) {
+    return response;
+  }
 };
 
 export async function translateSupabaseError(

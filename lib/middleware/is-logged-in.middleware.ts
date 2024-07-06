@@ -8,19 +8,24 @@ export const IsLoggedInMiddleware: Middleware = async (
   response,
 ) => {
   response = NextResponse.next({
-    request,
+    headers: request.headers,
   });
 
   const client = createSupabaseMiddlewareClient(request, response);
 
-  const { data } = await client.auth.getUser();
+  try {
+    const { data } = await client.auth.getUser();
 
-  if (!data.user) {
-    console.debug('User not logged in.');
+    if (!data.user) {
+      console.debug('User not logged in.');
+      return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
+    }
+
+    console.debug(`User is logged in: ${data.user.email}`);
+    return response;
+  } catch (err: any) {
     return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
+    throw err;
   }
-
-  console.debug(`User is logged in: ${data.user.email}`);
-  return response;
 };
 export default IsLoggedInMiddleware;

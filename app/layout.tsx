@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 import NavBar from '@/components/navigation/desktop-nav/desktop-nav';
 import MobileNav from '@/components/navigation/mobile-nav/mobile-nav';
 import Footer from '@/components/footer';
+import { SessionProvider } from '@/lib/providers/session-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -93,26 +94,28 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {/* Desktop Navigation */}
-          <div className="hidden sm:block">
-            <NavBar />
-          </div>
-
-          {/* Mobile Navigation */}
-          <div className="block sm:hidden">
-            <MobileNav />
-          </div>
-          <main
-            id="skip"
-            className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
-          >
-            <div className="max-w-6xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-6">
-              <div className="sm:flex sm:flex-col sm:align-center">
-                {children}
-              </div>
+          <SessionProvider>
+            {/* Desktop Navigation */}
+            <div className="hidden sm:block">
+              <NavBar />
             </div>
-            <Footer />
-          </main>
+
+            {/* Mobile Navigation */}
+            <div className="block sm:hidden">
+              <MobileNav />
+            </div>
+            <main
+              id="skip"
+              className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
+            >
+              <div className="max-w-6xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-6">
+                <div className="sm:flex sm:flex-col sm:align-center">
+                  {children}
+                </div>
+              </div>
+              <Footer />
+            </main>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

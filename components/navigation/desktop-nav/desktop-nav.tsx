@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import {
@@ -19,7 +19,7 @@ import LogoFull from '@/components/logos/logo-full/logo-full';
 import { Button } from '@/components/ui/button';
 import LogoFGR from '@/components/logos/logo-fgr/logo-fgr';
 import { createSupabaseBrowserClient } from '@/utils/supabase/client';
-import type { User } from '@supabase/supabase-js';
+import { SessionContext } from '@/lib/providers/session-provider';
 
 export function DesktopNav() {
   return (
@@ -113,12 +113,8 @@ const ListItem = React.forwardRef<
 ListItem.displayName = 'ListItem';
 
 const NavBar = () => {
+  const session = useContext(SessionContext);
   const client = createSupabaseBrowserClient();
-  const [user, setUser] = useState<User | undefined>();
-
-  useEffect(() => {
-    client.auth.getUser().then(({ data }) => setUser(data.user || undefined));
-  }, [client, user]);
   return (
     <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
       <div className="flex gap-4 w-28">
@@ -128,8 +124,8 @@ const NavBar = () => {
       <div className="flex gap-4">
         <ThemeToggle />
         <Button variant="default" size="lg">
-          {!user && <Link href="/auth/signin">Sign In</Link>}
-          {user && (
+          {!session?.user && <Link href="/auth/signin">Sign In</Link>}
+          {session?.user && (
             <Link
               href="#"
               onClick={async () => {

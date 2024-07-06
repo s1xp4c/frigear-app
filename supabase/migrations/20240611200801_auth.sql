@@ -12,6 +12,7 @@ create table public.profile
 
 create index profile_nickname on public.profile (nickname);
 
+
 -- Authorization
 create or replace function public.current_user_has_role(requested_role text)
     returns boolean
@@ -23,10 +24,20 @@ declare
     user_role text;
 begin
     -- Fetch user role once and store it to reduce number of calls
-    select (auth.jwt() -> 'profile' ->> 'role')::text into user_role;
+    select (auth.jwt() -> 'app_metadata' ->> 'profile' ->> 'role')::text into user_role;
     return requested_role = user_role;
 end;
 $$;
+
+-- this will mostly only be read by service roles.
+alter table public.profile
+    enable row level security;
+
+create policy "User Profile can only be viewed by owner"
+    on public.profile as permissive for select using (auth.uid() = id);
+
+create policy "User Profile can only be viewed by admin"
+    on public.profile as permissive for select using (public.current_user_has_role('admin'));
 
 -- Adds additional data to the jwt for a user
 create or replace function public.custom_access_token_hook(event jsonb)
@@ -39,45 +50,45 @@ declare
     claims  jsonb;
     profile public.profile;
 begin
-    -- Fetch the user role in the user_roles table
+    raise notice 'event: %', event;
     select * into profile from public.profile where id = (event ->> 'user_id')::uuid;
 
-    claims := event -> 'claims';
-
     if profile is not null then
-        -- Set the claim
-        claims := jsonb_set(claims, '{profile}', to_jsonb(profile));
-    else
-        claims := jsonb_set(claims, '{profile}', 'null');
+        raise notice 'profile: %', profile;
+        raise notice 'claims: %', claims;
+        claims := event -> 'claims';
+        if jsonb_typeof(claims -> 'app_metadata') is null then
+            claims := jsonb_set(claims, '{app_metadata}', '{}');
+        end if;
+
+        -- Ensure row_to_json(profile) does not return null
+        claims := jsonb_set(claims, '{app_metadata, profile}', coalesce(profile, '{}'));
+        event := jsonb_set(event, '{claims}', claims);
     end if;
 
-    -- Update the 'claims' object in the original event
-    event := jsonb_set(event, '{claims}', claims);
-
-    -- Return the modified or original event
     return event;
 end;
 $$;
+
 grant execute
     on function public.custom_access_token_hook
     to supabase_auth_admin;
 
 grant usage on schema public to supabase_auth_admin;
+grant select on table public.profile to supabase_auth_admin;
+create policy allow_supabase_auth_admin on public.profile
+    for select
+    using (current_user = 'supabase_auth_admin');
+
 
 revoke execute
     on function public.custom_access_token_hook
     from authenticated, anon, public;
 
 
--- this will mostly only be read by service roles.
-alter table public.profile
-    enable row level security;
-
-create policy "User Profile can only be viewed by owner"
-    on public.profile as permissive for select using (auth.uid() = id);
-
-create policy "User Profile can only be viewed by admin"
-    on public.profile as permissive for select using (public.current_user_has_role('admin'));
+grant all
+    on table public.profile
+    to supabase_auth_admin;
 
 
 -- inserts a row into public.profile
@@ -90,7 +101,7 @@ $$
 declare
     with_role text = 'user';
 begin
---     TODO: use new.raw_user_meta_data to also fill profile.
+    --     TODO: use new.raw_user_meta_data to also fill profile.
     insert into public.profile (id, nickname, role)
     values (new.id, new.email, with_role);
     return new;

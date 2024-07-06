@@ -17,7 +17,9 @@ export async function runMiddlewareScopes(
   }
 
   if (matchingMiddlewareStacks.length === 0) {
-    return null;
+    return NextResponse.next({
+      request,
+    });
   }
 
   let response: NextResponse = NextResponse.next();
@@ -27,21 +29,6 @@ export async function runMiddlewareScopes(
       if (!response.ok || response.redirected) {
         return response;
       }
-    }
-  }
-  return response;
-}
-
-export async function runMiddlewareStack(
-  request: NextRequest,
-  response: NextResponse,
-  stack: MiddlewareStack,
-) {
-  // Execute the middleware stack
-  for (const middleware of stack) {
-    response = await middleware(request, response);
-    if (!response.ok) {
-      return response;
     }
   }
   return response;

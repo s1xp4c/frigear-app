@@ -1,16 +1,20 @@
 'use server';
-import { createServerSupabaseClient } from '@/utils/supabase/server';
+import {
+  useServerSupabaseSession,
+  useServerSupabaseSessionUserProfile,
+  useServerSupabaseUser,
+} from '@/utils/supabase/server';
 
 export default async function Page() {
-  const client = createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await client.auth.getUser();
-
+  const user = await useServerSupabaseUser();
+  const session = await useServerSupabaseSession();
+  const profile = await useServerSupabaseSessionUserProfile();
   return (
     <div className="mx-auto mt-[10%]">
       <div>Page</div>
       <div>Hello {user?.email}</div>
+      <pre>{JSON.stringify(profile, null, 2)}</pre>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
     </div>
   );
 }

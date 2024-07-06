@@ -1,9 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Middleware } from '@/lib/middleware/types';
-import {
-  createSupabaseMiddlewareClient,
-  useSupabaseMiddlewareUser,
-} from '@/utils/supabase/middleware';
+import { createSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 
 export const IsAdminMiddleware: Middleware = async (
   request: NextRequest,
@@ -15,22 +12,19 @@ export const IsAdminMiddleware: Middleware = async (
     },
   });
 
-  const user = await useSupabaseMiddlewareUser(request, response);
-
-  if (!user) {
-    return response;
-  }
-
   const client = createSupabaseMiddlewareClient(request, response);
+  try {
+    const {
+      data: { session },
+    } = await client.auth.getSession();
 
-  const {
-    data: { session },
-  } = await client.auth.getSession();
+    if (!session) {
+      return response;
+    }
 
-  if (!session) {
+    return response;
+  } catch (err: any) {
     return response;
   }
-
-  return response;
 };
 export default IsAdminMiddleware;
