@@ -37,9 +37,7 @@ export const createServerSupabaseClient = () => {
 
   return supabase;
 };
-// React Cache: https://react.dev/reference/react/cache
-// Caches the session retrieval operation. This helps in minimizing redundant calls
-// across server components for the same session data.
+
 export async function fetchServerSupabaseUser(): Promise<User | undefined> {
   const supabase = createServerSupabaseClient();
   try {
@@ -66,16 +64,20 @@ export async function useServerSupabaseSession() {
   }
 }
 
-export async function useServerSupabaseSessionUserProfile() {
+export async function useServerSupabaseUserCurrentJwt() {
   const session = await useServerSupabaseSession();
 
   if (!session || !session.access_token) {
-    return undefined;
+    return {};
   }
 
-  const jwt = jwtDecode(session.access_token) as {
+  return jwtDecode(session.access_token) as {
     profile?: DatabaseUserProfile;
   };
+}
 
-  return jwt;
+export async function useServerSupabaseSessionUserProfile() {
+  const { profile } = await useServerSupabaseUserCurrentJwt();
+
+  return profile;
 }

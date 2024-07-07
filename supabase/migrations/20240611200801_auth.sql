@@ -24,7 +24,7 @@ declare
     user_role text;
 begin
     -- Fetch user role once and store it to reduce number of calls
-    select (auth.jwt() -> 'app_metadata' ->> 'profile' ->> 'role')::text into user_role;
+    select (auth.jwt()::jsonb -> 'app_metadata' -> 'profile' ->> 'role')::text into user_role;
     return requested_role = user_role;
 end;
 $$;
@@ -47,22 +47,32 @@ create or replace function public.custom_access_token_hook(event jsonb)
 as
 $$
 declare
-    claims  jsonb;
-    profile public.profile;
+    claims        jsonb;
+    profile       jsonb;
+    user_metadata jsonb;
 begin
-    raise notice 'event: %', event;
-    select * into profile from public.profile where id = (event ->> 'user_id')::uuid;
+    -- Select the profile and convert it to JSON, assigning it to the profile variable
+    select row_to_json(p)
+    into profile
+    from public.profile p
+    where p.id = (event ->> 'user_id')::uuid;
+
+--     raise notice 'profile: %', profile;
 
     if profile is not null then
-        raise notice 'profile: %', profile;
-        raise notice 'claims: %', claims;
         claims := event -> 'claims';
-        if jsonb_typeof(claims -> 'app_metadata') is null then
-            claims := jsonb_set(claims, '{app_metadata}', '{}');
-        end if;
 
-        -- Ensure row_to_json(profile) does not return null
-        claims := jsonb_set(claims, '{app_metadata, profile}', coalesce(profile, '{}'));
+        -- Initialize user_metadata if it does not exist
+--         if jsonb_typeof(claims -> 'user_metadata') is null then
+--             claims := jsonb_set(claims, '{user_metadata}', '{}');
+--         end if;
+
+        -- Merge profile into user_metadata
+--         user_metadata := claims -> 'user_metadata';
+--         user_metadata := user_metadata || profile;
+--         claims := jsonb_set(claims, '{user_metadata}', user_metadata);
+--         Simply add the profile key to the jwt.
+        claims := jsonb_set(claims, '{profile}', profile);
         event := jsonb_set(event, '{claims}', claims);
     end if;
 

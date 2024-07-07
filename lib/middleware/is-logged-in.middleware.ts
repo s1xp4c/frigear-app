@@ -17,15 +17,12 @@ export const IsLoggedInMiddleware: Middleware = async (
     const { data } = await client.auth.getUser();
 
     if (!data.user) {
-      console.debug('User not logged in.');
       return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
     }
 
-    console.debug(`User is logged in: ${data.user.email}`);
     return response;
   } catch (err: any) {
     return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
-    throw err;
   }
 };
 export default IsLoggedInMiddleware;

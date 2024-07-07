@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Middleware } from '@/lib/middleware/types';
-import { createSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
+import { useServerSupabaseUserCurrentJwt } from '@/utils/supabase/server';
+import { url } from '@/utils/helpers';
 
 export const IsAdminMiddleware: Middleware = async (
   request: NextRequest,
@@ -12,19 +13,16 @@ export const IsAdminMiddleware: Middleware = async (
     },
   });
 
-  const client = createSupabaseMiddlewareClient(request, response);
-  try {
-    const {
-      data: { session },
-    } = await client.auth.getSession();
+  const { profile } = await useServerSupabaseUserCurrentJwt();
 
-    if (!session) {
-      return response;
-    }
-
-    return response;
-  } catch (err: any) {
-    return response;
+  if (!profile) {
+    return NextResponse.redirect(url('/auth/signin'));
   }
+
+  if (profile.role !== 'admin') {
+    return NextResponse.redirect(url('/auth/login?error=missing_role'));
+  }
+
+  return response;
 };
 export default IsAdminMiddleware;
