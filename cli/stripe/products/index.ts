@@ -1,5 +1,5 @@
 import { defineCommand } from 'citty';
-import { serverContainer } from '@/app/server-container';
+import { serverContainer } from '@/constants/server-container';
 
 export default defineCommand({
   subCommands: {

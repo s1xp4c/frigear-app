@@ -1,7 +1,6 @@
 // Footer.tsx
 import GitHub from '@/components/icons/github';
 import Logo from '@/components/icons/logo';
-import Logo_six from '@/components/icons/logo-six';
 import FooterLinkGroup from './footer-link-group';
 import Link from 'next/link';
 
@@ -35,20 +34,11 @@ export default function Footer() {
         <div className="flex items-center space-x-4">
           <Link
             aria-label="Github Repository"
-            href="https://github.com/s1xp4c/frigear-sub-payments"
+            href="https://github.com/s1xp4c/frigear-app"
             target="_blank"
             rel="noopener noreferrer"
           >
             <GitHub />
-          </Link>
-          <span>App udviklet af Frigear frivillige</span>
-          <Link
-            href="https://block-folio.netlify.app/"
-            aria-label="Portfolio link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Logo_six />
           </Link>
         </div>
       </div>
