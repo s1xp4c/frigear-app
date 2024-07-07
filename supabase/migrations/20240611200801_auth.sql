@@ -76,7 +76,7 @@ grant execute
 
 grant usage on schema public to supabase_auth_admin;
 grant select on table public.profile to supabase_auth_admin;
-create policy allow_supabase_auth_admin on public.profile
+create policy "Allow Supabase Auth to read Profiles" on public.profile
     for select
     using (current_user = 'supabase_auth_admin');
 
