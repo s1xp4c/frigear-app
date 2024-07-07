@@ -1,6 +1,5 @@
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { cache } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { jwtDecode } from 'jwt-decode';
 import type { DatabaseUserProfile } from '@/lib/database/types';
@@ -53,8 +52,6 @@ export async function fetchServerSupabaseUser(): Promise<User | undefined> {
     return undefined;
   }
 }
-
-export const useServerSupabaseUser = cache(fetchServerSupabaseUser);
 
 export async function useServerSupabaseSession() {
   const supabase = createServerSupabaseClient();

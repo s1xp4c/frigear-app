@@ -2,8 +2,8 @@
 import {
   useServerSupabaseSession,
   useServerSupabaseSessionUserProfile,
-  useServerSupabaseUser,
 } from '@/utils/supabase/server';
+import { useServerSupabaseUser } from '@/utils/supabase/useServerSupabaseUser';
 
 export default async function Page() {
   const user = await useServerSupabaseUser();
