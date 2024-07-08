@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import {
@@ -10,18 +10,26 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
+  NavigationMenuTrigger
 } from '@/components/ui/navigation-menu';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-import { ProductGroups } from '@/constants/navigation';
+import { AdminMenu, ProductGroups } from '@/constants/navigation';
 import LogoFull from '@/components/logos/logo-full/logo-full';
 import { Button } from '@/components/ui/button';
 import LogoFGR from '@/components/logos/logo-fgr/logo-fgr';
-import { createSupabaseBrowserClient } from '@/utils/supabase/client';
+import { createSupabaseBrowserClient, useSupabaseBrowserUser } from '@/utils/supabase/client';
 import { SessionContext } from '@/lib/providers/session-provider';
+import type { User } from '@supabase/supabase-js';
 
 export function DesktopNav() {
+  const [user, setUser] = useState<User|undefined>()
+  useEffect(()=>{
+    //TODO: Check if this hook rule is needed?
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useSupabaseBrowserUser().then(user => setUser(user))
+  }, [user]);
+  const isAdmin = true;
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -73,14 +81,30 @@ export function DesktopNav() {
           <NavigationMenuTrigger>Products</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {ProductGroups.map((products) => (
-                <ListItem key={products.title} title={products.title}>
-                  <Link href={products.href}>{products.description}</Link>
-                </ListItem>
+              {ProductGroups.map((groupLink) => (
+                <Link key={groupLink.title} href={groupLink.href}>
+                  <ListItem title={groupLink.title}>
+                    {groupLink.description}
+                  </ListItem>
+                </Link>
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        {isAdmin && <NavigationMenuItem>
+          <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+              {AdminMenu.map((adminLink) => (
+                <Link key={adminLink.title} href={adminLink.href}>
+                  <ListItem title={adminLink.title}>
+                    {adminLink.description && <span>{adminLink.description}</span>}
+                  </ListItem>
+                </Link>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -97,7 +121,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-            className,
+            className
           )}
           {...props}
         >

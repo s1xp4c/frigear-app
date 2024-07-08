@@ -39,7 +39,7 @@ export class DependencyContainer<Dependencies extends Record<string, any>> {
         Dependencies,
         Name
       >;
-      this.instances[name] = serviceFactory(this) as Dependencies[Name];
+      this.instances[name] = serviceFactory(this);
       return true;
     }
     return false;

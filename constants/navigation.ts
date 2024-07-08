@@ -28,3 +28,19 @@ export const ProductGroups: {
       'Hire a group of volunteers for your birthday party, highschool reunion, or whatever you can think of.',
   },
 ];
+
+export const AdminMenu: {
+  title: string;
+  href: string;
+  description?: string;
+}[] = [
+  {
+    title: 'Dashboard',
+    href: '/admin',
+  },
+  {
+    title: 'Products',
+    href: '/admin/products',
+  },
+];
+

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { url } from '@/utils/helpers';
+import { baseUrl } from '@/utils/helpers';
 import { PropsWithChildren } from 'react';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import NavBar from '@/components/navigation/desktop-nav/desktop-nav';
@@ -38,7 +38,7 @@ const meta = {
     },
   },
   favicon: '/favicon.ico',
-  url: url(),
+  url: baseUrl(),
 };
 
 export async function generateMetadata(): Promise<Metadata> {

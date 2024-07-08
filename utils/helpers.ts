@@ -1,6 +1,6 @@
 import { AppConfig } from '@/constants/config';
 
-export const url = (path: string = '') => {
+export const baseUrl = (path: string = '') => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
   let url = AppConfig.baseUrl;
 
