@@ -1,8 +1,15 @@
 import { type NextRequest } from 'next/server';
-import { updateSession } from '@/utils/supabase/middleware';
+import { UserSessionMiddleware } from '@/utils/supabase/middleware';
+import { runMiddlewareScopes } from '@/lib/middleware';
+import IsAdminMiddleware from '@/lib/middleware/is-admin.middleware';
+import IsLoggedInMiddleware from '@/lib/middleware/is-logged-in.middleware';
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  return await runMiddlewareScopes(request, {
+    '.*': [UserSessionMiddleware],
+    '/admin.*': [IsLoggedInMiddleware, IsAdminMiddleware],
+    '/app.*': [IsLoggedInMiddleware],
+  });
 }
 
 export const config = {

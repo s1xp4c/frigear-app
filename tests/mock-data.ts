@@ -19,7 +19,7 @@ export const buildNextRequest = ({
 };
 
 export const buildStripeProduct = (
-  fields?: Stripe.ProductCreateParams | undefined,
+  fields?: Partial<Stripe.ProductCreateParams> | undefined,
 ): Stripe.Product => {
   return {
     id: 'prod_NWjs8kKbJWmuuc',

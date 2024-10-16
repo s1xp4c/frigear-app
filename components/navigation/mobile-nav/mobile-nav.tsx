@@ -11,13 +11,17 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import LogoFull from '@/components/logos/logo-full/logo-full';
 import { SettingsNav } from '@/components/navigation/settings-nav/SettingsNav';
+import { createSupabaseBrowserClient } from '@/utils/supabase/client';
+import { SessionContext } from '@/lib/providers/session-provider';
 
 const MobileNav = () => {
+  const client = createSupabaseBrowserClient();
+  const session = useContext(SessionContext);
   const [isOpen, setOpen] = useState<boolean>(false);
 
   const toggleOpen = () => setOpen((prev) => !prev);
@@ -61,8 +65,20 @@ const MobileNav = () => {
               <SheetHeader className="mt-10">
                 <SheetTitle>💜 Kom indenfor 💜</SheetTitle>
                 <SheetDescription>
-                  <div>Sign in</div>
-                  <div>Sign up</div>
+                  {!session?.user && <Link href="/auth/signin">Sign in</Link>}
+                  <br />
+                  {!session?.user && <Link href="/auth/signup">Sign up</Link>}
+                  {session?.user && (
+                    <Link
+                      href="#"
+                      onClick={async () => {
+                        await client.auth.signOut();
+                        location.replace('/');
+                      }}
+                    >
+                      Sign out
+                    </Link>
+                  )}
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>

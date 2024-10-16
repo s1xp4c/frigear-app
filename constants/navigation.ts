@@ -1,4 +1,4 @@
-const NavProducts: {
+export const ProductGroups: {
   title: string;
   href: string;
   description: string;
@@ -28,5 +28,3 @@ const NavProducts: {
       'Hire a group of volunteers for your birthday party, highschool reunion, or whatever you can think of.',
   },
 ];
-
-export default NavProducts;

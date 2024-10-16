@@ -1,5 +1,8 @@
-import { CookieOptions, createServerClient } from '@supabase/ssr';
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { User } from '@supabase/supabase-js';
+import { jwtDecode } from 'jwt-decode';
+import type { DatabaseUserProfile } from '@/lib/database/types';
 
 export const createSupabaseServiceRoleClient = () => {
   return createServerClient(
@@ -34,20 +37,47 @@ export const createServerSupabaseClient = () => {
 
   return supabase;
 };
-// // React Cache: https://react.dev/reference/react/cache
-// // Caches the session retrieval operation. This helps in minimizing redundant calls
-// // across server components for the same session data.
-// async function getSessionUser() {
-//     const supabase = createServerSupabaseClient();
-//     try {
-//         const {
-//             data: {user}
-//         } = await supabase.auth.getUser();
-//         return user;
-//     } catch (error) {
-//         console.error('Error:', error);
-//         return null;
-//     }
-// }
-//
-// export const getSession = cache(getSessionUser);
+
+export async function fetchServerSupabaseUser(): Promise<User | undefined> {
+  const supabase = createServerSupabaseClient();
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user || undefined;
+  } catch (err: any) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+export async function useServerSupabaseSession() {
+  const supabase = createServerSupabaseClient();
+  try {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    return session || undefined;
+  } catch (err: any) {
+    console.error(err);
+    return undefined;
+  }
+}
+
+export async function useServerSupabaseUserCurrentJwt() {
+  const session = await useServerSupabaseSession();
+
+  if (!session || !session.access_token) {
+    return {};
+  }
+
+  return jwtDecode(session.access_token) as {
+    profile?: DatabaseUserProfile;
+  };
+}
+
+export async function useServerSupabaseSessionUserProfile() {
+  const { profile } = await useServerSupabaseUserCurrentJwt();
+
+  return profile;
+}
