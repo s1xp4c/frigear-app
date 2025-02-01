@@ -110,7 +110,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
           <div className="max-w-7xl mx-auto my-auto min-h-full w-full">
             {children}
           </div>
-          <div className="fixed bottom-0 w-full bg-gradient-to-br from-secondary/30 via-primary/30 to-secondary/30 z-10 px-10 text-foreground ">
+          <div className="fixed bottom-0 w-full bg-gradient-to-br from-secondary/30 via-primary/40 to-secondary/30 z-10 px-10 text-foreground ">
             <Footer />
           </div>
         </ThemeProvider>
