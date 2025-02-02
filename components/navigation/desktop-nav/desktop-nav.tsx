@@ -25,17 +25,19 @@ import { SessionContext } from "@/lib/providers/session-provider";
 export function DesktopNav() {
   return (
     <>
-      <NavigationMenu>
+      <NavigationMenu className="h-26">
         <NavigationMenuList>
-          <NavigationMenuItem className="mt-3 hover:bg-none">
+          <NavigationMenuItem className="mt-4 hover:bg-none ">
             <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="inline-flex h-10 w-max items-center justify-center mr-10">
-                <LogoFull />
+              <NavigationMenuLink className="inline-flex h-max w-max items-center justify-center mr-10">
+                <LogoFull width={190} />
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>About</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              <span className="text-lg font-large ">Om os</span>
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-4">
@@ -44,7 +46,9 @@ export function DesktopNav() {
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                       href="/"
                     >
-                      <LogoFGR />
+                      <div className="items-center w-full justify-center mb-4 mr-2">
+                        <LogoFGR />
+                      </div>
                       <div className="mb-4 mt-4 text-lg font-medium">
                         Frigear
                         <h3 className="text-xs leading-tight text-muted-foreground">
@@ -55,7 +59,7 @@ export function DesktopNav() {
                         Nørrebro
                       </p>
                       <p className="text-sm leading-tight text-muted-foreground">
-                        2200 Copenhagen N
+                        2200 Kbh N
                       </p>
                       <p className="text-sm leading-tight text-muted-foreground">
                         Denmark
@@ -79,7 +83,9 @@ export function DesktopNav() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              <span className="text-lg font-large ">Produkter</span>
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 {ProductGroups.map((products) => (
@@ -111,7 +117,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="text-md font-large leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
@@ -126,14 +132,14 @@ const NavBar = () => {
   const session = useContext(SessionContext);
   const client = createSupabaseBrowserClient();
   return (
-    <div className="nav-bar left-1/2 -translate-x-1/2 w-full">
-      <div className="flex gap-4 w-28">
+    <div className="absolute justify-between left-1/2 -translate-x-1/2 w-full z-10 max-w-7xl flex p-6 items-center">
+      <div className="">
         <DesktopNav />
       </div>
       <div className="flex gap-4">
         <ThemeToggle />
         <Button variant="default" size="lg">
-          {!session?.user && <Link href="/auth/signin">Sign In</Link>}
+          {!session?.user && <Link href="/auth/signin">LOG IND</Link>}
           {session?.user && (
             <Link
               href="#"
@@ -142,7 +148,7 @@ const NavBar = () => {
                 location.replace("/");
               }}
             >
-              Sign Out
+              LOG UD
             </Link>
           )}
         </Button>
