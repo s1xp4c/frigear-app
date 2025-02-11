@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { FaAdjust, FaMoon, FaSun } from 'react-icons/fa';
-import { useTheme } from 'next-themes';
+import * as React from "react";
+import { FaAdjust, FaMoon, FaSun } from "react-icons/fa";
+import { useTheme } from "next-themes";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <div className="">
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon">
@@ -26,27 +26,27 @@ export function ThemeToggle() {
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme('light')}>
-            <div className="toggle-mode">
-              <div className="">Light</div>
+        <DropdownMenuContent className="ml-7">
+          <DropdownMenuItem onClick={() => setTheme("light")}>
+            <div className="toggle-mode flex justify-between w-full items-center">
+              <span>Lyst</span>
               <FaSun className="h-[1.1rem] w-[1.1rem]" />
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme('dark')}>
-            <div className="toggle-mode">
-              <span>Dark</span>
+          <DropdownMenuItem onClick={() => setTheme("dark")}>
+            <div className="toggle-mode  flex justify-between w-full items-center">
+              <span>Mørkt</span>
               <FaMoon className=" h-[1rem] w-[1rem] " />
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme('system')}>
-            <div className="toggle-mode">
+          <DropdownMenuItem onClick={() => setTheme("system")}>
+            <div className="toggle-mode flex justify-between w-full items-center">
               <span>System</span>
               <FaAdjust className=" h-[1rem] w-[1rem] " />
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </div>
+    </>
   );
 }
