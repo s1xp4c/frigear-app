@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { serverContainer } from '@/constants/server-container';
+import { serverContainer } from "@/constants/server-container";
 
 export default async function AppPage() {
-  const client = serverContainer.make('supabaseClient');
+  const client = serverContainer.make("supabaseClient");
   const {
     data: { user },
     error,
@@ -16,5 +16,9 @@ export default async function AppPage() {
     return <h1>No user</h1>;
   }
 
-  return <h1>{user.email || 'n/a'}</h1>;
+  return (
+    <div className="">
+      <h1>{JSON.stringify(user) || "n/a"}</h1>
+    </div>
+  );
 }
