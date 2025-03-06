@@ -69,5 +69,5 @@
     "typescript": "^5.5.3",
     "vitest": "1.6.0"
   },
-  "packageManager": "pnpm@9.13.1+sha256.dd98691b127b5d2c4d0605b594e98ec0bcbe5fba86358184de706c3312a4e2ee"
+  "packageManager": "pnpm@9.13.1"
 }
