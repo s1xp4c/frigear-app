@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useContext } from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { useContext } from 'react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,16 +11,42 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+} from '@/components/ui/navigation-menu';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-import { ProductGroups } from "@/constants/navigation";
-import LogoFull from "@/components/logos/logo-full/logo-full";
-import { Button } from "@/components/ui/button";
-import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
-import { createSupabaseBrowserClient } from "@/utils/supabase/client";
-import { SessionContext } from "@/lib/providers/session-provider";
+import { ProductGroups } from '@/constants/navigation';
+import LogoFull from '@/components/logos/logo-full/logo-full';
+import { Button } from '@/components/ui/button';
+import LogoFGR from '@/components/logos/logo-fgr/logo-fgr';
+import { createSupabaseBrowserClient } from '@/utils/supabase/client';
+import {
+  SessionContext,
+  UserProfileContext,
+} from '@/lib/providers/session-provider';
+
+const NavItemLink = ({ path, title }: { path: string; title?: string }) => {
+  return (
+    <Button variant="default" size="lg">
+      <Link href={path} legacyBehavior passHref>
+        {title || 'Dashboard'}
+      </Link>
+    </Button>
+  );
+};
+
+export function DashboardButton() {
+  const profile = useContext(UserProfileContext);
+  if (!profile) return '';
+
+  switch (profile.role) {
+    case 'admin':
+      return NavItemLink({ path: '/admin', title: 'Admin' });
+    case 'volunteer':
+      return NavItemLink({ path: '/app', title: 'Work' });
+    default:
+      return NavItemLink({ path: '/app', title: profile.role });
+  }
+}
 
 export function DesktopNav() {
   return (
@@ -103,8 +129,8 @@ export function DesktopNav() {
 }
 
 const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
+  React.ElementRef<'a'>,
+  React.ComponentPropsWithoutRef<'a'>
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
@@ -112,7 +138,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
             className,
           )}
           {...props}
@@ -126,7 +152,7 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
-ListItem.displayName = "ListItem";
+ListItem.displayName = 'ListItem';
 
 const NavBar = () => {
   const session = useContext(SessionContext);
@@ -138,6 +164,7 @@ const NavBar = () => {
       </div>
       <div className="flex gap-4">
         <ThemeToggle />
+        <DashboardButton />
         <Button variant="default" size="lg">
           {!session?.user && <Link href="/auth/signin">LOG IND</Link>}
           {session?.user && (
@@ -145,7 +172,7 @@ const NavBar = () => {
               href="#"
               onClick={async () => {
                 await client.auth.signOut();
-                location.replace("/");
+                location.replace('/');
               }}
             >
               LOG UD
