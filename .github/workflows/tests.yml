@@ -13,7 +13,7 @@ jobs:
       - run: supabase start
       - uses: pnpm/action-setup@v4
         with:
-          version: '9.13.1'
+          version: 'pnpm@9.13.1+sha256.dd98691b127b5d2c4d0605b594e98ec0bcbe5fba86358184de706c3312a4e2ee'
       - run: pnpm install
       - run: cp .env.example .env
       - run: pnpm run test
