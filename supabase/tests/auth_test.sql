@@ -20,7 +20,8 @@ select has_column('profile', 'created_at');
 
 select policies_are('profile', ARRAY [
     'User Profile can only be viewed by owner',
-    'User Profile can only be viewed by admin']);
+    'User Profile can only be viewed by admin',
+    'Allow Supabase Auth to read Profiles']);
 
 select *
 from finish();

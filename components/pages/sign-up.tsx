@@ -3,9 +3,9 @@ import { signUp } from '@/components/pages/actions';
 import { Label } from '@/components/ui/label';
 import { TextInput } from '@/components/ui/input/text-input';
 import { useState } from 'react';
-import { AppConfig } from '@/app/config';
+import { AppConfig } from '@/constants/config';
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="mx-auto mt-[10%]">
-      <form onSubmit={handleSubmit} className="mt-2 space-y-4 w-96">
+      <form onSubmit={handleSubmit} className="mt-2 space-y-4 w-full">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <TextInput

@@ -2,9 +2,17 @@
 
 import { url } from '@/utils/helpers';
 import { redirect } from 'next/navigation';
-import { serverContainer } from '@/app/server-container';
+import { serverContainer } from '@/constants/server-container';
 
-export async function signUp({ email }: { email: string }) {
+type OnSignUpActionProps = {
+  email: string;
+  onSignUpRedirectUrl?: string;
+};
+
+export async function signUp({
+  email,
+  onSignUpRedirectUrl,
+}: OnSignUpActionProps) {
   if (!email || email.length <= 2) {
     throw new Error(`No email.`);
   }
@@ -30,5 +38,5 @@ export async function signUp({ email }: { email: string }) {
     console.warn('No data.');
   }
 
-  return redirect(url('/'));
+  return redirect(url(onSignUpRedirectUrl || '/'));
 }

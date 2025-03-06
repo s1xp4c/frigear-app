@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import './globals.css';
 import { url } from '@/utils/helpers';
 import { PropsWithChildren } from 'react';
@@ -7,8 +7,10 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 import NavBar from '@/components/navigation/desktop-nav/desktop-nav';
 import MobileNav from '@/components/navigation/mobile-nav/mobile-nav';
 import Footer from '@/components/footer';
+import { SessionProvider } from '@/lib/providers/session-provider';
+import FooterMobile from '@/components/footerMobile/FooterMobile';
 
-const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto({ subsets: ['latin-ext'], weight: ['500'] });
 
 const meta = {
   title: {
@@ -54,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     keywords: [
-      'Foreningen Frigear, Frigear, Non-profit, Frivillige, Roskilde festival frivillig, bar, Arena scenen, Frigear Bar, Forening, Almennyttig, Frivillig-drevet, Frivillig-forening, Foreningsliv',
+      'Foreningen Frigear, Frigear, Non-profit, Frivillige, Roskilde festival, Arena scenen, Frigear Bar, Forening, Almennyttig, Frivilligdrevet, Frivilligforening, Foreningsliv',
     ],
     authors: [
       { name: 'Six', url: 'https://block-folio.netlify.app/' },
@@ -91,28 +93,38 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {/* Desktop Navigation */}
-          <div className="hidden sm:block">
-            <NavBar />
-          </div>
-
-          {/* Mobile Navigation */}
-          <div className="block sm:hidden">
-            <MobileNav />
-          </div>
-          <main
-            id="skip"
-            className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
-          >
-            <div className="max-w-6xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-6">
-              <div className="sm:flex sm:flex-col sm:align-center">
-                {children}
-              </div>
+          <SessionProvider>
+            {/* Desktop Navigation */}
+            <div className="hidden sm:block">
+              <NavBar />
             </div>
-            <Footer />
-          </main>
+
+            {/* Mobile Navigation */}
+            <div className="block sm:hidden">
+              <MobileNav />
+            </div>
+            <main
+              id="skip"
+              className="min-h-[calc(100dvh-4rem)] sm:min-h[calc(100dvh-5rem)]"
+            >
+              <div className="mx-auto max-w-full px-4 py-8  my-auto sm:py-12 sm:px-6 lg:px-6 overflow-auto">
+                <div className="sm:flex sm:flex-col sm:align-center">
+                  {children}
+                </div>
+              </div>
+            </main>
+            {/* Desktop Footer */}
+            <div className="absolute hidden sm:block sm:bottom-0 sm:mt-auto w-full">
+              <Footer />
+            </div>
+
+            {/* Mobile Footer */}
+            <div className="block sm:hidden fixed bottom-0 w-full bg-background z-10 mb-2">
+              <FooterMobile />
+            </div>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
