@@ -18,7 +18,7 @@ const SignUp = () => {
 
   return (
     <div className="mx-auto mt-[10%]">
-      <form onSubmit={handleSubmit} className="mt-2 space-y-4 w-96">
+      <form onSubmit={handleSubmit} className="mt-2 space-y-4 w-full">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <TextInput
