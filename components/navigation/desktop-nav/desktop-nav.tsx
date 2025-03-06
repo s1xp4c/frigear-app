@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useContext } from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,25 +11,26 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+} from '@/components/ui/navigation-menu';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-import { ProductGroups } from "@/constants/navigation";
-import LogoFull from "@/components/logos/logo-full/logo-full";
-import { Button } from "@/components/ui/button";
-import LogoFGR from "@/components/logos/logo-fgr/logo-fgr";
-import { createSupabaseBrowserClient, useSupabaseBrowserUser } from "@/utils/supabase/client";
-import { SessionContext } from "@/lib/providers/session-provider";
+import { ProductGroups } from '@/constants/navigation';
+import LogoFull from '@/components/logos/logo-full/logo-full';
+import { Button } from '@/components/ui/button';
+import LogoFGR from '@/components/logos/logo-fgr/logo-fgr';
+import {
+  createSupabaseBrowserClient,
+  useSupabaseBrowserUser,
+} from '@/utils/supabase/client';
+import { SessionContext } from '@/lib/providers/session-provider';
 import type { User } from '@supabase/supabase-js';
 
-
 export function DesktopNav() {
-  const [user, setUser] = useState<User|undefined>()
-  useEffect(()=>{
+  const [user, setUser] = useState<User | undefined>();
+  useEffect(() => {
     //TODO: Check if this hook rule is needed?
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useSupabaseBrowserUser().then(user => setUser(user))
+    useSupabaseBrowserUser().then((user) => setUser(user));
   }, [user]);
   const isAdmin = true;
   return (
@@ -121,7 +122,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
             className,
           )}
           {...props}
@@ -135,7 +136,7 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
-ListItem.displayName = "ListItem";
+ListItem.displayName = 'ListItem';
 
 const NavBar = () => {
   const session = useContext(SessionContext);
@@ -154,7 +155,7 @@ const NavBar = () => {
               href="#"
               onClick={async () => {
                 await client.auth.signOut();
-                location.replace("/");
+                location.replace('/');
               }}
             >
               LOG UD
