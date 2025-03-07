@@ -100,6 +100,7 @@ grant all
     on table public.profile
     to supabase_auth_admin;
 
+--TODO: Remove this trigger.
 -- inserts a row into public.profile
 create function public.handle_user_profile_updated()
     returns trigger
@@ -116,9 +117,9 @@ begin
     from public.profile p
     where p.id = new.id;
 
-    select row_to_json(auth.users.app_metadata)
+    select row_to_json(u.app_metadata)
     into app_metadata
-    from auth.users;
+    from auth.users u;
     return new;
 end;
 $$;
