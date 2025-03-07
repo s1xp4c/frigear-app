@@ -1,5 +1,5 @@
 'use client';
-import { signUp } from '@/components/pages/actions';
+import { handleSignUp } from '@/components/pages/actions';
 import { Label } from '@/components/ui/label';
 import { TextInput } from '@/components/ui/input/text-input';
 import { useState } from 'react';
@@ -12,7 +12,7 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await signUp({ email });
+    await handleSignUp({ email });
     setLoading(false);
   };
 

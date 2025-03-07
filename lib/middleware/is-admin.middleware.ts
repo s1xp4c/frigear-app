@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Middleware } from '@/lib/middleware/types';
 import { useServerSupabaseUserCurrentJwt } from '@/utils/supabase/server';
-import { url } from '@/utils/helpers';
+import { baseUrl } from '@/utils/helpers';
 
 export const IsAdminMiddleware: Middleware = async (
   request: NextRequest,
@@ -16,11 +16,11 @@ export const IsAdminMiddleware: Middleware = async (
   const { profile } = await useServerSupabaseUserCurrentJwt();
 
   if (!profile) {
-    return NextResponse.redirect(url('/auth/signin'));
+    return NextResponse.redirect(baseUrl('/auth/signin'));
   }
 
   if (profile.role !== 'admin') {
-    return NextResponse.redirect(url('/auth/login?error=missing_role'));
+    return NextResponse.redirect(baseUrl('/auth/login?error=missing_role'));
   }
 
   return response;

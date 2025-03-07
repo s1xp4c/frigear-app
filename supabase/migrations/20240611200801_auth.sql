@@ -100,6 +100,36 @@ grant all
     on table public.profile
     to supabase_auth_admin;
 
+--TODO: Remove this trigger.
+-- inserts a row into public.profile
+create function public.handle_user_profile_updated()
+    returns trigger
+    language plpgsql
+    security definer set search_path = public
+as
+$$
+declare
+    profile      jsonb;
+    app_metadata jsonb;
+begin
+    select row_to_json(p)
+    into profile
+    from public.profile p
+    where p.id = new.id;
+
+    select row_to_json(u.app_metadata)
+    into app_metadata
+    from auth.users u;
+    return new;
+end;
+$$;
+
+-- trigger the function every time a user is created
+create trigger on_user_profile_updated
+    after update
+    on public.profile
+    for each row
+execute function public.handle_user_profile_updated();
 
 -- inserts a row into public.profile
 create function public.handle_auth_user_created()

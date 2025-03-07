@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Middleware } from '@/lib/middleware/types';
-import { url } from '@/utils/helpers';
+import { baseUrl } from '@/utils/helpers';
 import { createSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 
 export const IsLoggedInMiddleware: Middleware = async (
@@ -17,12 +17,12 @@ export const IsLoggedInMiddleware: Middleware = async (
     const { data } = await client.auth.getUser();
 
     if (!data.user) {
-      return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
+      return NextResponse.redirect(baseUrl('/auth/signin?error=unauthenticated'));
     }
 
     return response;
   } catch (err: any) {
-    return NextResponse.redirect(url('/auth/signin?error=unauthenticated'));
+    return NextResponse.redirect(baseUrl('/auth/signin?error=unauthenticated'));
   }
 };
 export default IsLoggedInMiddleware;

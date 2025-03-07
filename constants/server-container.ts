@@ -18,6 +18,7 @@ import Stripe from 'stripe';
 import StripeProductService from '@/lib/services/product/stripe-product-service';
 import StripePriceRepository from '@/lib/repositories/product/stripe-price-repository';
 import StripeProductIOService from '@/lib/services/product/stripe-product-io-service';
+import AuthenticationService from '@/lib/services/auth/authentication-service';
 
 export interface ServerContainer {
   //It is important that we pass the correct client on the server
@@ -35,6 +36,8 @@ export interface ServerContainer {
   stripePriceService: StripePriceRepository;
   stripeWebhookHandler: IStripeWebhookHandler;
   stripeProductIOService: StripeProductIOService;
+
+  authenticationService: AuthenticationService;
 }
 
 export const serverContainer = new DependencyContainer<ServerContainer>();
@@ -86,3 +89,6 @@ serverContainer.instance('stripeProductIOService', (container) => {
     container.make('stripeProductService'),
   );
 });
+serverContainer.instance('authenticationService', (container) => {
+  return new AuthenticationService(container.make('supabaseClient'))
+})

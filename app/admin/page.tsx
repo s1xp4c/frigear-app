@@ -3,7 +3,7 @@ import {
   useServerSupabaseSession,
   useServerSupabaseSessionUserProfile,
 } from '@/utils/supabase/server';
-import { useServerSupabaseUser } from '@/utils/supabase/useServerSupabaseUser';
+import { useServerSupabaseUser } from '@/utils/supabase/server.react';
 
 export default async function Page() {
   const user = await useServerSupabaseUser();
