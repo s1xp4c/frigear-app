@@ -12,8 +12,8 @@ jobs:
           version: latest
       - run: supabase start
       - uses: pnpm/action-setup@v4
-        with:
-          version: '8.15.6'
+#        with:
+#          version: '8.15.6'
       - run: pnpm install
       - run: cp .env.example .env
       - run: pnpm run test
